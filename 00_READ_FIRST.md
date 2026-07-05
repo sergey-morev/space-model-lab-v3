@@ -43,11 +43,17 @@ Accepted state:
 * no-dependency Node local server
 * Windows launcher
 
-Canonical working directory:
+Original local Codex workspace used during v0 import:
 
 ```text
 C:\Users\infor\Documents\Codex\2026-07-01\new-chat
 ```
+
+This path is historical import context, not a portable project root.
+
+Do not assume this local path exists in future environments.
+
+Codi currently works in this local workspace. The portable canonical project root is the checked-out GitHub repository root after clone or pull. Future agents should treat that repository root as the working root.
 
 Canonical Windows launch path:
 

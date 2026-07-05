@@ -949,6 +949,43 @@ This does not authorize new physics, runtime feature work, packaging, dependenci
 
 ---
 
+D-v3-020 - Public recovery wording clarified
+
+Status: ACCEPTED
+Date: 2026-07-05
+
+Context
+
+After the initial public import, the recovery capsule and canonical docs still recorded the original local Codex workspace path.
+
+That path is useful provenance for the v0 import, but it is not portable across future environments.
+
+Decision
+
+00_READ_FIRST.md remains the repo-local recovery capsule.
+
+The local Codex workspace path is historical import context, not portable canon.
+
+The portable canonical project root is the checked-out GitHub repository root after clone or pull.
+
+Runtime was not changed.
+
+Rationale
+
+Public recovery guidance should help future agents work from a fresh checkout without assuming the original Windows path exists.
+
+Consequences
+
+Future agents should treat the repository root after clone or pull as the working root.
+
+Local workspace paths may remain only when clearly labeled as historical or task-local context.
+
+Not decided
+
+This does not authorize runtime changes, launch-path changes, packaging, dependencies, build tooling, or deployment.
+
+---
+
 Active decision summary
 
 Accepted:
@@ -972,3 +1009,4 @@ Accepted:
 * D-v3-017 - Educational inspector refinement accepted
 * D-v3-018 - Local launch path accepted
 * D-v3-019 - Recovery capsule accepted
+* D-v3-020 - Public recovery wording clarified

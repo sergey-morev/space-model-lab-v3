@@ -560,9 +560,13 @@ Current accepted milestone:
 
 * Task 7B - Release Capsule / Recovery Checkpoint
 
-Accepted working directory for this run:
+Original local Codex workspace used during v0 import:
 
 * C:\Users\infor\Documents\Codex\2026-07-01\new-chat
+
+This path is historical import context, not a universal project root.
+
+The portable canonical project root is the checked-out GitHub repository root after clone or pull.
 
 Current runtime posture:
 

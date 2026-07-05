@@ -413,9 +413,13 @@ Current accepted milestone:
 
 * Task 7B - Release Capsule / Recovery Checkpoint
 
-Accepted working directory for this run:
+Original local Codex workspace used during v0 import:
 
 * C:\Users\infor\Documents\Codex\2026-07-01\new-chat
+
+This path is historical import context, not portable canon.
+
+The portable canonical project root is the checked-out GitHub repository root after clone or pull.
 
 Accepted implementation state:
 
@@ -482,6 +486,7 @@ Task 7B accepted recovery path:
 * 00_READ_FIRST.md summarizes the v0 local milestone and points to canonical docs
 * 00_READ_FIRST.md does not replace PROJECT_SOURCE.md, MANIFEST.md, or docs/
 * repo working tree and canonical docs remain authoritative if a conflict appears
+* local Codex workspace paths are historical import context unless a future task explicitly declares otherwise
 
 Current constraints remain:
 

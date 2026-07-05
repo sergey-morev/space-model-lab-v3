@@ -31,11 +31,15 @@ Stop after the scaffold is complete.
 
 2. Required root confirmation
 
-Intended working directory:
+Historical local Codex workspace used during v0 scaffold/import:
 
 C:\Users\infor\Documents\Codex\2026-07-01\new-chat
 
-If this value is not filled with an exact absolute path, stop without modifying any files.
+This path records the original local workspace used by Codi. It is not a portable project root for future environments.
+
+For future clone/pull runs, use the checked-out GitHub repository root as the working root.
+
+If a task requires an exact local path, confirm the current environment path before modifying any files.
 
 Before making any changes, inspect the current working directory.
 
