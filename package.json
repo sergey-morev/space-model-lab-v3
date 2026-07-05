@@ -1,0 +1,10 @@
+{
+  "name": "space-model-lab-v3",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "baseline": "node src/dev/baseline.js",
+    "serve": "node tools/serve-local.js",
+    "preview": "node tools/serve-local.js"
+  }
+}

@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Space Model Lab v3</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <main class="app-shell">
+      <section class="sim-area" aria-label="Simulation viewport">
+        <canvas id="space-canvas" width="960" height="640"></canvas>
+      </section>
+
+      <aside class="control-panel" aria-label="Controls and inspector">
+        <h1>Space Model Lab v3</h1>
+        <p class="status">Physics kernel active. Headless invariant baseline available through node src/dev/baseline.js.</p>
+
+        <div class="controls">
+          <button id="toggle-run" type="button">Play</button>
+          <button id="reset-sim" type="button">Reset</button>
+          <button id="zoom-out" type="button">-</button>
+          <button id="zoom-in" type="button">+</button>
+          <label>
+            Fixed steps per frame
+            <input id="speed-control" type="range" min="1" max="4" step="1" value="1">
+          </label>
+        </div>
+
+        <pre id="inspector" class="inspector">Physics kernel active.</pre>
+      </aside>
+    </main>
+
+    <script type="module" src="src/main.js"></script>
+  </body>
+</html>
