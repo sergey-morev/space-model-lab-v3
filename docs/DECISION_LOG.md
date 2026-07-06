@@ -986,6 +986,41 @@ This does not authorize runtime changes, launch-path changes, packaging, depende
 
 ---
 
+D-v3-021 - Public review positioning accepted
+
+Status: ACCEPTED
+Date: 2026-07-05
+
+Context
+
+T9A found no technical blockers for external technical review, but the README did not yet show the repository's main public differentiator.
+
+The project is both a small educational physics sandbox and a reproducible, governed multi-agent LLM development case study.
+
+Decision
+
+README now presents the project as an educational Newtonian N-body sandbox and a gated multi-agent LLM workflow case study.
+
+Baseline metrics are visible in README.
+
+The reviewer route links to recovery, source, manifest, decision, architecture, acceptance, and physics contract documents.
+
+Runtime was not changed.
+
+Rationale
+
+External reviewers should understand within 60 seconds that the repository is reviewable through observed baseline verification and governance, not only through a browser demo.
+
+Consequences
+
+The public entrypoint now exposes baseline verification, human-in-the-loop approval, single-writer git discipline, commit packet, approval gate, and receipt concepts.
+
+Not decided
+
+This does not configure GitHub Pages, add screenshots, create tags, add Actions, add features, change runtime behavior, or add dependencies.
+
+---
+
 Active decision summary
 
 Accepted:
@@ -1010,3 +1045,4 @@ Accepted:
 * D-v3-018 - Local launch path accepted
 * D-v3-019 - Recovery capsule accepted
 * D-v3-020 - Public recovery wording clarified
+* D-v3-021 - Public review positioning accepted
