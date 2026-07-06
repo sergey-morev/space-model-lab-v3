@@ -102,7 +102,7 @@ Runtime preset:
 
 * id: normalized-educational-nbody
 * name: Normalized educational N-body baseline
-* bodies: Sun, Inner, Second, Third, Fourth, Outer
+* bodies: Sun, Inner A, Inner B, Middle, Outer A, Outer B
 * normalized educational units only
 * not real ephemeris data
 * not date-accurate astronomy

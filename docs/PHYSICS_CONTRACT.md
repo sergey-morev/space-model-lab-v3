@@ -465,11 +465,11 @@ Hidden global state is forbidden in physics.
 The initial educational preset includes:
 
 * Sun
-* Inner
-* Second
-* Third
-* Fourth
-* Outer
+* Inner A
+* Inner B
+* Middle
+* Outer A
+* Outer B
 
 The preset should be stable enough for a short baseline run and visually plausible in the browser.
 

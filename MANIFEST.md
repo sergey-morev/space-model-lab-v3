@@ -578,7 +578,7 @@ Current runtime posture:
 * no TypeScript
 * no browser automation baseline
 * no new physics beyond accepted Newtonian v0
-* current runtime preset uses generic educational bodies: Sun, Inner, Second, Third, Fourth, Outer
+* current runtime preset uses generic educational bodies: Sun, Inner A, Inner B, Middle, Outer A, Outer B
 * no-dependency Node local launcher accepted
 * repo-local recovery capsule accepted
 

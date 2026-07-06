@@ -13,7 +13,7 @@ function freezeBody(body) {
 const orbiters = [
   {
     id: "inner",
-    name: "Inner",
+    name: "Inner A",
     role: "shortest-period educational orbiter",
     mass: 0.000001,
     color: "#b8b2a6",
@@ -23,7 +23,7 @@ const orbiters = [
   },
   {
     id: "second",
-    name: "Second",
+    name: "Inner B",
     role: "educational orbiter",
     mass: 0.000002,
     color: "#d8b26e",
@@ -33,7 +33,7 @@ const orbiters = [
   },
   {
     id: "third",
-    name: "Third",
+    name: "Middle",
     role: "educational orbiter",
     mass: 0.000003,
     color: "#6fb7ff",
@@ -43,7 +43,7 @@ const orbiters = [
   },
   {
     id: "fourth",
-    name: "Fourth",
+    name: "Outer A",
     role: "educational orbiter",
     mass: 0.0000015,
     color: "#d86c4f",
@@ -53,7 +53,7 @@ const orbiters = [
   },
   {
     id: "outer",
-    name: "Outer",
+    name: "Outer B",
     role: "educational outer orbiter",
     mass: 0.00001,
     color: "#d3a16d",

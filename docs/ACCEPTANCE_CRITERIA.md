@@ -417,11 +417,11 @@ The initial preset is accepted when it defines a simple six-body normalized educ
 Required bodies:
 
 * Sun
-* Inner
-* Second
-* Third
-* Fourth
-* Outer
+* Inner A
+* Inner B
+* Middle
+* Outer A
+* Outer B
 
 Required properties:
 

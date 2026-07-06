@@ -428,7 +428,7 @@ Accepted implementation state:
 * dt=0.001
 * softening=0.001
 * Velocity Verlet / Kick-Drift-Kick integration
-* six-body educational preset: Sun, Inner, Second, Third, Fourth, Outer
+* six-body educational preset: Sun, Inner A, Inner B, Middle, Outer A, Outer B
 * no real ephemerides
 * no collisions
 * no GR, black holes, or lensing

@@ -373,11 +373,11 @@ Purpose:
 Initial preset includes:
 
 * Sun
-* Inner
-* Second
-* Third
-* Fourth
-* Outer
+* Inner A
+* Inner B
+* Middle
+* Outer A
+* Outer B
 
 Preset values are educational normalized values.
 

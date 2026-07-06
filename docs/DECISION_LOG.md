@@ -771,7 +771,7 @@ Context
 
 Task 5B refined the browser inspector after the accepted Task 4C browser sandbox milestone.
 
-The runtime preset remains the normalized educational N-body baseline:
+At the Task 5C milestone, the runtime preset remained the normalized educational N-body baseline:
 
 * id: normalized-educational-nbody
 * name: Normalized educational N-body baseline
@@ -1021,6 +1021,44 @@ This does not configure GitHub Pages, add screenshots, create tags, add Actions,
 
 ---
 
+D-v3-022 - Public display labels clarified
+
+Status: ACCEPTED
+Date: 2026-07-06
+
+Context
+
+The current v0 cockpit is preparing for a future public screenshot, but the displayed body labels Inner, Second, Third, Fourth, and Outer look placeholder-like in a public README image.
+
+Decision
+
+Runtime-visible body display labels were changed to neutral educational labels:
+
+* Sun
+* Inner A
+* Inner B
+* Middle
+* Outer A
+* Outer B
+
+Physics parameters and baseline behavior were not changed.
+
+Real planet names were intentionally not used to avoid ephemeris, NASA-data, date-accurate astronomy, or real-solar-system overclaim.
+
+Rationale
+
+The screenshot-facing labels should be readable and public-friendly without implying real solar-system data.
+
+Consequences
+
+The change is display-label-only. Body ids, body count, masses, positions, velocities, visual radii, colors, timestep, gravity, softening, integrator, and baseline tolerances remain unchanged.
+
+Not decided
+
+Screenshot assets remain deferred. GitHub Pages, Actions, features, and additional visual polish remain not decided.
+
+---
+
 Active decision summary
 
 Accepted:
@@ -1046,3 +1084,4 @@ Accepted:
 * D-v3-019 - Recovery capsule accepted
 * D-v3-020 - Public recovery wording clarified
 * D-v3-021 - Public review positioning accepted
+* D-v3-022 - Public display labels clarified

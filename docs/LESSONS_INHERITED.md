@@ -451,7 +451,7 @@ Approximate orbital period should not be added unless a later task explicitly sc
 
 Documentation must match runtime preset names.
 
-The accepted runtime preset uses Sun, Inner, Second, Third, Fourth, and Outer, not real planet-name bodies.
+The accepted runtime preset uses Sun, Inner A, Inner B, Middle, Outer A, and Outer B, not real planet-name bodies.
 
 ---
 
