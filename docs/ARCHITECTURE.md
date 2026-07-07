@@ -1005,7 +1005,25 @@ Known Task 6C limitations:
 
 ---
 
-34. Summary
+34. Accepted Task 11B public Pages architecture
+
+The accepted public preview architecture after Task 11B is:
+
+* GitHub Pages serves the browser cockpit from branch main, folder / root
+* public URL is https://drmorev.github.io/space-model-lab-v3/
+* Pages serves the same static index.html, styles.css, and JavaScript module graph as the local preview
+* no build step, dependency, bundler, Action, or runtime server is required for Pages
+* Pages is public presentation, not invariant verification authority
+* local baseline validation remains node src/dev/baseline.js
+* live cockpit includes invariant telemetry and barycenter marker
+* direct file:// index.html remains outside acceptance
+* screenshot assets remain deferred and optional
+
+This public preview architecture must remain separate from physics, simulation, renderer, UI, camera, and baseline behavior.
+
+---
+
+35. Summary
 
 Space Model Lab v3 architecture is built around one rule:
 

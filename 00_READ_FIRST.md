@@ -2,8 +2,8 @@
 
 Status: RECOVERY CAPSULE
 Project line: Space Model Lab v3
-Milestone: v0 Local Milestone
-Date: 2026-07-05
+Milestone: v0 Observable Cockpit + Live Pages
+Date: 2026-07-07
 
 ---
 
@@ -30,7 +30,7 @@ Do not assume external uploaded ChatGPT source files exist in this repo unless t
 
 ## Current Milestone
 
-Space Model Lab v3 v0 Local Milestone is accepted.
+Space Model Lab v3 v0 Observable Cockpit is accepted.
 
 Accepted state:
 
@@ -40,8 +40,11 @@ Accepted state:
 * renderer-owned deterministic starfield
 * renderer-owned bounded trails
 * educational inspector diagnostics
+* live invariant telemetry
+* barycenter / center-of-mass marker
 * no-dependency Node local server
 * Windows launcher
+* GitHub Pages public preview
 
 Original local Codex workspace used during v0 import:
 
@@ -53,7 +56,7 @@ This path is historical import context, not a portable project root.
 
 Do not assume this local path exists in future environments.
 
-Codi currently works in this local workspace. The portable canonical project root is the checked-out GitHub repository root after clone or pull. Future agents should treat that repository root as the working root.
+The executor currently works in this local workspace. The portable canonical project root is the checked-out GitHub repository root after clone or pull. Future agents should treat that repository root as the working root.
 
 Canonical Windows launch path:
 
@@ -72,6 +75,14 @@ Canonical browser URL:
 ```text
 http://127.0.0.1:4173/
 ```
+
+Canonical public Pages URL:
+
+```text
+https://drmorev.github.io/space-model-lab-v3/
+```
+
+GitHub Pages is the public presentation path. It is not a replacement for local baseline validation.
 
 Direct `file:// index.html` is not an acceptance path for this ES-module app.
 
@@ -205,6 +216,14 @@ Browser QA for launcher/runtime tasks:
 * trails clear after Reset
 * no visible console errors
 
+Public Pages QA after Pages-related tasks:
+
+* open `https://drmorev.github.io/space-model-lab-v3/`
+* cockpit loads
+* live invariant telemetry is visible
+* barycenter marker is visible
+* local baseline remains the source of invariant verification
+
 ---
 
 ## Audit Policy
@@ -237,6 +256,8 @@ For small docs-only changes, use a short validation checklist:
 * local server remains security-sensitive despite tested traversal protection
 * labels and inspector can be dense on small screens
 * normalized units can be confused with real astronomy if the disclaimer is ignored
+* GitHub Pages availability depends on GitHub hosting
+* screenshots / Open Graph preview assets are deferred and optional
 * .exe packaging is not accepted yet
 
 ---

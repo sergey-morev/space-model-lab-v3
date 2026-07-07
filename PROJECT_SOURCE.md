@@ -411,7 +411,7 @@ The project fails if it becomes a large impressive prototype with hidden couplin
 
 Current accepted milestone:
 
-* Task 7B - Release Capsule / Recovery Checkpoint
+* Task 11B - GitHub Pages public preview accepted
 
 Original local Codex workspace used during v0 import:
 
@@ -441,11 +441,14 @@ Accepted implementation state:
 * inspector shows normalized educational units disclaimer
 * selected-body inspector diagnostics are UI-only and read-only
 * derived inspector values are not stored in body or state
+* live invariant telemetry visible in the browser
+* barycenter / center-of-mass marker visible in the browser
 * deterministic renderer-owned starfield
 * renderer-owned bounded trails
 * no-dependency local HTTP launcher accepted
 * Windows launcher accepted as the canonical double-click launch path
 * repo-local recovery capsule accepted
+* GitHub Pages public preview accepted at https://drmorev.github.io/space-model-lab-v3/
 
 Task 5C accepted baseline:
 
@@ -488,6 +491,15 @@ Task 7B accepted recovery path:
 * repo working tree and canonical docs remain authoritative if a conflict appears
 * local Codex workspace paths are historical import context unless a future task explicitly declares otherwise
 
+Task 11B accepted public preview path:
+
+* GitHub Pages public preview is live at https://drmorev.github.io/space-model-lab-v3/
+* Pages source is branch main, folder / root
+* accepted deployed commit at verification time is 843ca0143b3fe644445f466297ea9871d1b36866
+* live cockpit includes T10B live invariant telemetry and T10C barycenter marker
+* Pages does not replace local baseline validation
+* screenshot remains deferred and optional
+
 Current constraints remain:
 
 * no framework
@@ -495,8 +507,9 @@ Current constraints remain:
 * no build system
 * no new physics beyond accepted Newtonian v0
 * no collision, ephemeris, GR, black-hole, or lensing behavior
-* start-space-model-lab.bat plus Node local server is the canonical launch path
-* local HTTP server at http://127.0.0.1:4173/ is the canonical browser preview path
+* start-space-model-lab.bat plus Node local server is the canonical local launch path
+* local HTTP server at http://127.0.0.1:4173/ is the canonical local browser preview path
+* GitHub Pages at https://drmorev.github.io/space-model-lab-v3/ is the accepted public preview path
 * direct file:// index.html is not the canonical acceptance path
 
 ---

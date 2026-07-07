@@ -847,11 +847,49 @@ Not included:
 * integrator race
 * new presets
 * screenshot
-* GitHub Pages
 
 ---
 
-27. Final acceptance statement
+27. GitHub Pages public preview acceptance
+
+The Task 11B GitHub Pages public preview milestone is accepted only when all of these remain true.
+
+Pages configuration:
+
+* source is deploy from branch
+* branch is main
+* folder is / root
+* public URL is https://drmorev.github.io/space-model-lab-v3/
+* deployed commit at acceptance time is 843ca0143b3fe644445f466297ea9871d1b36866
+
+Public cockpit behavior:
+
+* live URL opens successfully
+* cockpit loads
+* live invariant telemetry is present
+* barycenter marker is present
+* the browser app remains the same static ES-module app
+
+Verification:
+
+* Pages does not replace node src/dev/baseline.js
+* node src/dev/baseline.js must remain PASS
+* relative energy drift must remain 4.290851857533e-11
+* momentum drift must remain 7.808913380318e-20
+* relative angular momentum drift must remain 3.213114654476e-15
+
+Not included:
+
+* screenshot asset
+* Open Graph preview
+* GitHub Actions
+* deployment automation workflow
+* new features
+* annotated tag
+
+---
+
+28. Final acceptance statement
 
 The implementation is accepted only when this statement is true:
 

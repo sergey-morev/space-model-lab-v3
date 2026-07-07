@@ -1017,7 +1017,9 @@ The public entrypoint now exposes baseline verification, human-in-the-loop appro
 
 Not decided
 
-This does not configure GitHub Pages, add screenshots, create tags, add Actions, add features, change runtime behavior, or add dependencies.
+At D-v3-021, this did not configure GitHub Pages, add screenshots, create tags, add Actions, add features, change runtime behavior, or add dependencies.
+
+GitHub Pages was later accepted by D-v3-026.
 
 ---
 
@@ -1055,7 +1057,9 @@ The change is display-label-only. Body ids, body count, masses, positions, veloc
 
 Not decided
 
-Screenshot assets remain deferred. GitHub Pages, Actions, features, and additional visual polish remain not decided.
+Screenshot assets remain deferred.
+
+At D-v3-022, GitHub Pages, Actions, features, and additional visual polish remained not decided. GitHub Pages was later accepted by D-v3-026.
 
 ---
 
@@ -1102,7 +1106,7 @@ Consequences
 
 Screenshot remains deferred until the cockpit visually communicates the scientific differentiator.
 
-GitHub Pages remains deferred until after observability planning or a separate deployment decision.
+At D-v3-023, GitHub Pages remained deferred until after observability planning or a separate deployment decision. GitHub Pages was later accepted by D-v3-026.
 
 Next intended task is T10A read-only observability planning audit.
 
@@ -1116,7 +1120,9 @@ No diagnostics module is accepted yet.
 
 No barycenter marker is accepted yet.
 
-No oscilloscope, time reversal, integrator race, presets, Pages, screenshot, Actions, or v4 repo/branch strategy is accepted yet.
+No oscilloscope, time reversal, integrator race, presets, screenshot, Actions, or v4 repo/branch strategy is accepted yet.
+
+GitHub Pages was later accepted by D-v3-026.
 
 ---
 
@@ -1166,7 +1172,13 @@ The browser composition path updates current/comparison telemetry after fixed si
 
 Not decided
 
-Screenshot, GitHub Pages, barycenter marker, oscilloscope, time reversal, integrator race, presets, and v4 work remain not decided.
+At D-v3-024, screenshot, GitHub Pages, barycenter marker, oscilloscope, time reversal, integrator race, presets, and v4 work remained not decided.
+
+Barycenter was later accepted by D-v3-025.
+
+GitHub Pages was later accepted by D-v3-026.
+
+Screenshot, oscilloscope, time reversal, integrator race, presets, and v4 work remain not decided.
 
 ---
 
@@ -1217,7 +1229,64 @@ state.diagnostics.current.barycenter is the runtime source for marker drawing.
 
 Not decided
 
-Screenshot, GitHub Pages, oscilloscope, time reversal, integrator race, presets, broad controls, and v4 work remain not decided.
+Screenshot, oscilloscope, time reversal, integrator race, presets, broad controls, and v4 work remain not decided.
+
+---
+
+D-v3-026 - GitHub Pages public preview accepted
+
+Status: ACCEPTED
+Date: 2026-07-07
+
+Context
+
+After T10B live invariant telemetry and T10C barycenter marker, the browser cockpit became useful as a live public review artifact.
+
+T11A found the repository structurally ready for GitHub Pages: root index.html exists, paths are relative, JavaScript imports are case-clean, and no build step is required.
+
+Decision
+
+GitHub Pages public preview is accepted.
+
+The accepted Pages source configuration is branch main, folder / root.
+
+The live URL is:
+
+```text
+https://drmorev.github.io/space-model-lab-v3/
+```
+
+The accepted deployed commit at the time of verification is:
+
+```text
+843ca0143b3fe644445f466297ea9871d1b36866
+```
+
+Pages deployment was confirmed successful.
+
+The PI manually confirmed the live URL opens on phone.
+
+The live cockpit includes T10B live invariant telemetry and T10C barycenter marker.
+
+Rationale
+
+A live interactive cockpit is a stronger public proof than a static screenshot.
+
+Pages makes the accepted observable cockpit directly reviewable while preserving the local baseline as the verification authority.
+
+Consequences
+
+GitHub Pages is now the accepted public preview path.
+
+Pages does not replace local baseline validation.
+
+Screenshot remains deferred and optional.
+
+Annotated tag remains the next step and is not created by this docs commit.
+
+Not decided
+
+No screenshot asset, Open Graph preview, GitHub Actions, new feature, new preset, v4 strategy, or Pages automation workflow is accepted by this decision.
 
 ---
 
@@ -1250,3 +1319,4 @@ Accepted:
 * D-v3-023 - v3 scientific observability scope boundary accepted
 * D-v3-024 - Live invariant telemetry accepted
 * D-v3-025 - Barycenter marker accepted
+* D-v3-026 - GitHub Pages public preview accepted

@@ -5,12 +5,12 @@ Space Model Lab v3 is both:
 * an educational browser-based 2D Newtonian N-body sandbox
 * a controlled multi-agent LLM development case study with reproducible baseline verification
 
-Status: early v0 technical milestone. Physics v0, browser sandbox, visual polish, trails, starfield, local launcher, and educational inspector are accepted.
+Status: early v0 technical milestone. Physics v0, browser sandbox, visual polish, trails, starfield, educational inspector, live invariant telemetry, barycenter marker, local launcher, and GitHub Pages public preview are accepted.
 
-Current public docs-ready base before this README pass:
+Current accepted runtime commit before this Pages docs sync:
 
 ```text
-c979f48b4b528a1dc81f7ee032cd891575024181
+843ca0143b3fe644445f466297ea9871d1b36866
 ```
 
 ## Why This Is Reviewable
@@ -21,7 +21,19 @@ The value is not only the canvas demo. The repository is structured so reviewers
 
 Changes are governed through decision logs, human-in-the-loop approval, single-writer git discipline, commit packets, approval gates, and receipts with observed validation results.
 
-The public review path is based on observed baseline verification, not trust in screenshots or claims.
+The public review path is based on the live cockpit, observed baseline verification, and decision records, not trust in screenshots or claims.
+
+## Live Public Cockpit
+
+GitHub Pages public preview:
+
+```text
+https://drmorev.github.io/space-model-lab-v3/
+```
+
+The live cockpit shows the normalized educational N-body sandbox, live invariant telemetry, and a barycenter / center-of-mass marker.
+
+GitHub Pages is the public presentation path. It does not replace local baseline validation.
 
 ## Run Locally
 
@@ -86,9 +98,10 @@ This discipline is observed in the repository through source documents, decision
 
 Suggested route:
 
-1. Run the app locally.
-2. Run the baseline.
-3. Inspect the governance and architecture docs.
+1. Open the live public cockpit.
+2. Run the app locally if you want to inspect the no-dependency launch path.
+3. Run the baseline.
+4. Inspect the governance and architecture docs.
 
 Read first:
 
@@ -106,10 +119,12 @@ Reviewer questions:
 * Are physics, simulation, render, and UI boundaries clear?
 * Is the governance useful, or is it becoming process theater?
 * Is this README sufficient to understand the project in 60 seconds?
-* What should be the next public step: screenshot, GitHub Pages, tag, or feature?
+* What should be the next public step: annotated tag, optional screenshot, or feature?
 
-## Static Hosting Note
+## GitHub Pages Status
 
-The T9A static readiness audit found the project structurally compatible with future static hosting because paths are relative and JavaScript imports are case-clean.
+The T9A/T11A static readiness audits found the project structurally compatible with GitHub Pages because paths are relative and JavaScript imports are case-clean.
 
-GitHub Pages is not configured yet. No deployment decision is made by this README change.
+GitHub Pages is configured from branch `main`, folder `/ root`, and is accepted as the public preview path.
+
+Screenshot / Open Graph preview assets remain deferred and optional.
