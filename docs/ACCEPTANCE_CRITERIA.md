@@ -889,7 +889,44 @@ Not included:
 
 ---
 
-28. Final acceptance statement
+28. Observable-layer verification harness acceptance
+
+The Task 12A observable-check milestone is accepted only when all of these remain true.
+
+Runner behavior:
+
+* node src/dev/observable-check.js exits with PASS
+* the runner verifies accepted barycenter behavior
+* the runner verifies invariant telemetry field rendering through the controls layer at module/fake-DOM level
+* the runner exits non-zero on failure
+
+Architecture preservation:
+
+* the runner is dependency-free
+* the runner does not import renderer, main, canvas, browser, server, or third-party tooling
+* the runner does not mutate simulation bodies
+* no runtime behavior changes are required for the runner
+
+Verification:
+
+* node src/dev/observable-check.js must remain PASS
+* node src/dev/baseline.js must remain PASS
+* relative energy drift must remain 4.290851857533e-11
+* momentum drift must remain 7.808913380318e-20
+* relative angular momentum drift must remain 3.213114654476e-15
+
+Not included:
+
+* package.json script
+* GitHub Action
+* screenshot asset
+* browser automation
+* public feature
+* runtime UI change
+
+---
+
+29. Final acceptance statement
 
 The implementation is accepted only when this statement is true:
 

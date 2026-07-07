@@ -301,6 +301,7 @@ ui/
 controls.js
 dev/
 baseline.js
+observable-check.js
 
 This structure is intentionally small.
 
@@ -630,6 +631,7 @@ The active v3 source set is:
 * package.json as minimal Node runtime metadata
 * tools/serve-local.js as the no-dependency local HTTP server
 * start-space-model-lab.bat as the Windows launch helper
+* src/dev/observable-check.js as a dependency-free observable-layer verification runner
 * implementation files under the approved repository structure
 
 This manifest intentionally contains no archive list, no migration checklist, and no phase-specific completion target.

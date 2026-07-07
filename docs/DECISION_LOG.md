@@ -1290,6 +1290,55 @@ No screenshot asset, Open Graph preview, GitHub Actions, new feature, new preset
 
 ---
 
+D-v3-027 - Observable-layer verification harness accepted
+
+Status: ACCEPTED
+Date: 2026-07-07
+
+Context
+
+After v0.2 Observable Cockpit was tagged, the accepted observable layer needed a small regression net that does not expand the product surface.
+
+The accepted observable layer includes T10B live invariant telemetry and T10C barycenter marker behavior.
+
+Decision
+
+A dependency-free headless observable-check runner is accepted:
+
+```text
+node src/dev/observable-check.js
+```
+
+The runner verifies accepted barycenter behavior.
+
+The runner verifies invariant telemetry field rendering at module/fake-DOM level.
+
+It does not replace real browser QA.
+
+It does not replace node src/dev/baseline.js.
+
+It adds no dependencies, framework, Actions, screenshots, assets, package script, or public feature.
+
+It does not change physics, renderer, simulation behavior, UI implementation, Pages, or tags.
+
+The v0.2-observable-cockpit tag remains unchanged.
+
+Rationale
+
+The observable cockpit now has accepted scientific display behavior. A small headless runner catches accidental regressions in barycenter diagnostics and telemetry field rendering before visual QA.
+
+Consequences
+
+The runner is a development verification artifact, not a runtime feature.
+
+The runner must remain dependency-free and must not import renderer, main, canvas, browser tooling, or server modules.
+
+Not decided
+
+No screenshot, oscilloscope, time reversal, integrator race, new preset, GitHub Action, package script, or v4 work is accepted by this decision.
+
+---
+
 Active decision summary
 
 Accepted:
@@ -1320,3 +1369,4 @@ Accepted:
 * D-v3-024 - Live invariant telemetry accepted
 * D-v3-025 - Barycenter marker accepted
 * D-v3-026 - GitHub Pages public preview accepted
+* D-v3-027 - Observable-layer verification harness accepted
