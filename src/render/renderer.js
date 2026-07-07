@@ -199,6 +199,38 @@ export function createRenderer(canvas) {
     context.restore();
   }
 
+  function drawBarycenterMarker(state, camera) {
+    const barycenter = state.diagnostics?.current?.barycenter;
+    if (!barycenter?.finite) {
+      return;
+    }
+
+    const ratio = pixelRatio();
+    const screen = worldToScreen(barycenter, camera, {
+      width: canvas.width,
+      height: canvas.height
+    });
+    const radius = 6 * ratio;
+    const arm = 10 * ratio;
+
+    context.save();
+    context.globalAlpha = 0.86;
+    context.strokeStyle = "#8fe3ff";
+    context.lineWidth = Math.max(1, ratio);
+    context.beginPath();
+    context.arc(screen.x, screen.y, radius, 0, Math.PI * 2);
+    context.moveTo(screen.x - arm, screen.y);
+    context.lineTo(screen.x - radius * 0.45, screen.y);
+    context.moveTo(screen.x + radius * 0.45, screen.y);
+    context.lineTo(screen.x + arm, screen.y);
+    context.moveTo(screen.x, screen.y - arm);
+    context.lineTo(screen.x, screen.y - radius * 0.45);
+    context.moveTo(screen.x, screen.y + radius * 0.45);
+    context.lineTo(screen.x, screen.y + arm);
+    context.stroke();
+    context.restore();
+  }
+
   function findBodyAtPoint(state, camera, point) {
     let nearestBody = null;
     let nearestDistance = Infinity;
@@ -243,6 +275,7 @@ export function createRenderer(canvas) {
     for (const body of state.simulation.bodies) {
       drawBody(body, renderCamera);
     }
+    drawBarycenterMarker(state, renderCamera);
     drawOverlay(state);
   }
 

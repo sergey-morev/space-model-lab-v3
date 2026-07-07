@@ -464,6 +464,7 @@ Allowed:
 * read body mass, position, velocity, and acceleration values
 * import pure physics helpers such as computePotentialEnergy
 * compute energy, momentum, angular momentum, finite-state status, and drift comparisons
+* compute barycenter / center-of-mass diagnostics
 
 Forbidden:
 
@@ -714,6 +715,7 @@ Allowed mutations:
 * UI updates UI state or calls explicit callbacks
 * camera controls update camera state
 * renderer may update presentation-only caches
+* renderer may draw read-only diagnostic markers from state.diagnostics
 
 Forbidden mutations:
 
@@ -724,6 +726,7 @@ Forbidden mutations:
 * physics reading or mutating DOM
 * baseline mutating global browser state
 * hidden global state used by physics
+* renderer computing scientific diagnostics
 
 ---
 

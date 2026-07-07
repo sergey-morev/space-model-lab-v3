@@ -1170,6 +1170,57 @@ Screenshot, GitHub Pages, barycenter marker, oscilloscope, time reversal, integr
 
 ---
 
+D-v3-025 - Barycenter marker accepted
+
+Status: ACCEPTED
+Date: 2026-07-07
+
+Context
+
+D-v3-023 accepted barycenter / center-of-mass visualization as an in-scope v3 scientific observability candidate.
+
+T10C-A found that barycenter should be calculated in shared diagnostics and rendered only as a read-only marker.
+
+Decision
+
+A minimal barycenter marker was accepted as v3 scientific observability.
+
+Barycenter is computed in shared diagnostics.
+
+Barycenter is included in the invariant snapshot.
+
+Renderer draws a read-only marker from diagnostics state.
+
+Renderer does not compute barycenter.
+
+UI does not compute barycenter.
+
+Simulation bodies and physics state are not mutated.
+
+The marker visualizes center-of-mass / conservation behavior.
+
+The marker is not a real astronomical body and not an ephemeris object.
+
+Rationale
+
+In an isolated Newtonian system, center-of-mass behavior is a scientific diagnostic for conservation behavior.
+
+The marker makes this behavior visible without adding a new preset, control surface, or visual-drama feature.
+
+Consequences
+
+The marker remains modest and diagnostic-only.
+
+Camera projection remains render-only.
+
+state.diagnostics.current.barycenter is the runtime source for marker drawing.
+
+Not decided
+
+Screenshot, GitHub Pages, oscilloscope, time reversal, integrator race, presets, broad controls, and v4 work remain not decided.
+
+---
+
 Active decision summary
 
 Accepted:
@@ -1198,3 +1249,4 @@ Accepted:
 * D-v3-022 - Public display labels clarified
 * D-v3-023 - v3 scientific observability scope boundary accepted
 * D-v3-024 - Live invariant telemetry accepted
+* D-v3-025 - Barycenter marker accepted

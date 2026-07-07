@@ -808,7 +808,50 @@ Not included:
 
 ---
 
-26. Final acceptance statement
+26. Barycenter marker acceptance
+
+The Task 10C barycenter marker milestone is accepted only when all of these remain true.
+
+Browser behavior:
+
+* barycenter marker is visible
+* marker is modest and visually distinct
+* marker does not look like another body or planet
+* marker projects with camera zoom and does not change camera semantics
+* live invariant telemetry remains visible
+* play, pause, reset, speed, and zoom continue to work
+
+Architecture preservation:
+
+* barycenter is computed in src/simulation/diagnostics.js
+* barycenter is included in the invariant snapshot
+* compareInvariantSnapshot does not compare barycenter in Task 10C
+* renderer reads state.diagnostics.current.barycenter
+* renderer does not compute barycenter
+* UI does not compute barycenter
+* simulation bodies and physics state are not mutated
+
+Verification:
+
+* node src/dev/baseline.js must remain PASS
+* relative energy drift must remain 4.290851857533e-11
+* momentum drift must remain 7.808913380318e-20
+* relative angular momentum drift must remain 3.213114654476e-15
+
+Not included:
+
+* barycenter toggle
+* barycenter trail/history
+* oscilloscope graph
+* time reversal
+* integrator race
+* new presets
+* screenshot
+* GitHub Pages
+
+---
+
+27. Final acceptance statement
 
 The implementation is accepted only when this statement is true:
 

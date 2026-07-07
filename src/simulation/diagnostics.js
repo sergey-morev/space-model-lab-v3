@@ -65,6 +65,52 @@ export function computeAngularMomentum(bodies) {
   );
 }
 
+export function computeBarycenter(bodies) {
+  if (!Array.isArray(bodies)) {
+    throw new TypeError("computeBarycenter requires an array of bodies.");
+  }
+
+  let totalMass = 0;
+  let weightedX = 0;
+  let weightedY = 0;
+
+  for (const body of bodies) {
+    if (!Number.isFinite(body.mass)
+      || !Number.isFinite(body.position.x)
+      || !Number.isFinite(body.position.y)) {
+      return {
+        x: NaN,
+        y: NaN,
+        totalMass: Number.isFinite(totalMass) ? totalMass : NaN,
+        finite: false
+      };
+    }
+
+    totalMass += body.mass;
+    weightedX += body.mass * body.position.x;
+    weightedY += body.mass * body.position.y;
+  }
+
+  if (!Number.isFinite(totalMass) || totalMass === 0) {
+    return {
+      x: NaN,
+      y: NaN,
+      totalMass,
+      finite: false
+    };
+  }
+
+  const x = weightedX / totalMass;
+  const y = weightedY / totalMass;
+
+  return {
+    x,
+    y,
+    totalMass,
+    finite: Number.isFinite(x) && Number.isFinite(y)
+  };
+}
+
 function isFiniteBody(body) {
   return Number.isFinite(body.mass)
     && Number.isFinite(body.position.x)
@@ -86,6 +132,7 @@ export function createInvariantSnapshot(bodies, physicsConfig = {}) {
     totalMomentum,
     momentumMagnitude: computeMomentumMagnitude(totalMomentum),
     totalAngularMomentum: computeAngularMomentum(bodies),
+    barycenter: computeBarycenter(bodies),
     finite: allBodiesFinite(bodies)
   };
 }
