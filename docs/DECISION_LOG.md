@@ -1120,6 +1120,56 @@ No oscilloscope, time reversal, integrator race, presets, Pages, screenshot, Act
 
 ---
 
+D-v3-024 - Live invariant telemetry accepted
+
+Status: ACCEPTED
+Date: 2026-07-07
+
+Context
+
+D-v3-023 kept v3 open for invariant observability and reviewer-facing scientific overlays.
+
+T10A found that invariant logic lived mostly inside src/dev/baseline.js, while browser UI did not show live invariant telemetry.
+
+Decision
+
+A shared pure diagnostics module was added at src/simulation/diagnostics.js.
+
+The headless baseline now uses shared diagnostics logic.
+
+The browser cockpit now displays read-only invariant telemetry:
+
+* total energy
+* relative energy drift since reset/reference
+* total momentum magnitude
+* relative angular momentum drift since reset/reference
+
+Diagnostics are derived read-only values and do not mutate simulation bodies.
+
+UI displays formatted diagnostics but does not compute invariant formulas.
+
+Renderer remains independent from diagnostics.
+
+Rationale
+
+The v3 cockpit should communicate the accepted scientific differentiator directly in the browser: live invariant behavior, not only moving bodies.
+
+Shared diagnostics prevents baseline/browser drift and keeps invariant formulas out of UI and renderer code.
+
+Consequences
+
+state.diagnostics owns reference/current/comparison diagnostic snapshots separately from simulation bodies.
+
+Browser reset refreshes the reference snapshot.
+
+The browser composition path updates current/comparison telemetry after fixed simulation steps.
+
+Not decided
+
+Screenshot, GitHub Pages, barycenter marker, oscilloscope, time reversal, integrator race, presets, and v4 work remain not decided.
+
+---
+
 Active decision summary
 
 Accepted:
@@ -1147,3 +1197,4 @@ Accepted:
 * D-v3-021 - Public review positioning accepted
 * D-v3-022 - Public display labels clarified
 * D-v3-023 - v3 scientific observability scope boundary accepted
+* D-v3-024 - Live invariant telemetry accepted

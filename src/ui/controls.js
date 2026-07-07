@@ -53,6 +53,17 @@ export function initControls(options) {
     return value.toFixed(digits);
   }
 
+  function formatScientific(value, digits = 6) {
+    if (!Number.isFinite(value)) {
+      return "n/a";
+    }
+    if (value === 0) {
+      return "0";
+    }
+
+    return value.toExponential(digits);
+  }
+
   function formatVectorComponent(vector, axis) {
     return formatValue(vector?.[axis]);
   }
@@ -80,6 +91,16 @@ export function initControls(options) {
     const selectedDistance = Number.isFinite(selectedPositionX) && Number.isFinite(selectedPositionY)
       ? Math.hypot(selectedPositionX, selectedPositionY)
       : NaN;
+    const diagnostics = state.diagnostics ?? {};
+    const invariantTelemetry = [
+      "",
+      "-- INVARIANT TELEMETRY --",
+      "Normalized educational units. Reference: reset snapshot.",
+      row("Energy", formatScientific(diagnostics.current?.totalEnergy, 12)),
+      row("Delta E / E", formatScientific(diagnostics.comparison?.relativeEnergyDrift, 6)),
+      row("|P|", formatScientific(diagnostics.current?.momentumMagnitude, 6)),
+      row("Delta L / L", formatScientific(diagnostics.comparison?.relativeAngularMomentumDrift, 6))
+    ];
     const selectedDetails = selectedBody
       ? [
           "",
@@ -117,6 +138,7 @@ export function initControls(options) {
       row("fixed steps/frame", state.ui.speed),
       row("camera zoom", formatValue(state.camera.zoom, 2)),
       row("selected body", selectedLabel),
+      ...invariantTelemetry,
       "",
       "-- NOTE --",
       state.simulation.note ?? "Headless invariant baseline available through node src/dev/baseline.js.",

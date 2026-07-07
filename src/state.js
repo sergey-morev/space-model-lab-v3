@@ -10,6 +10,11 @@ export function createAppState() {
       presetId: null,
       note: "Educational normalized Newtonian N-body sandbox."
     },
+    diagnostics: {
+      reference: null,
+      current: null,
+      comparison: null
+    },
     camera: {
       center: { x: 0, y: 0 },
       zoom: 180

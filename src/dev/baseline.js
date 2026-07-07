@@ -1,6 +1,7 @@
 import { APP_CONFIG } from "../config.js";
-import { computePotentialEnergy, isGravityImplemented } from "../physics/gravity.js";
+import { isGravityImplemented } from "../physics/gravity.js";
 import { isIntegratorImplemented } from "../physics/integrator.js";
+import { compareInvariantSnapshot, createInvariantSnapshot } from "../simulation/diagnostics.js";
 import { getPreset, BASELINE_PRESET_ID } from "../simulation/presets.js";
 import { resetSimulation } from "../simulation/reset.js";
 import { stepSimulation } from "../simulation/step.js";
@@ -17,51 +18,6 @@ function formatNumber(value) {
     return String(value);
   }
   return value.toExponential(12);
-}
-
-function vectorMagnitude(vector) {
-  return Math.hypot(vector.x, vector.y);
-}
-
-function totalKineticEnergy(bodies) {
-  return bodies.reduce((sum, body) => {
-    const speedSquared = body.velocity.x * body.velocity.x + body.velocity.y * body.velocity.y;
-    return sum + 0.5 * body.mass * speedSquared;
-  }, 0);
-}
-
-function totalEnergy(bodies) {
-  return totalKineticEnergy(bodies) + computePotentialEnergy(bodies, physicsConfig);
-}
-
-function totalMomentum(bodies) {
-  return bodies.reduce(
-    (momentum, body) => ({
-      x: momentum.x + body.mass * body.velocity.x,
-      y: momentum.y + body.mass * body.velocity.y
-    }),
-    { x: 0, y: 0 }
-  );
-}
-
-function totalAngularMomentum(bodies) {
-  return bodies.reduce(
-    (sum, body) => sum + body.mass * (body.position.x * body.velocity.y - body.position.y * body.velocity.x),
-    0
-  );
-}
-
-function isFiniteBody(body) {
-  return Number.isFinite(body.mass)
-    && Number.isFinite(body.position.x)
-    && Number.isFinite(body.position.y)
-    && Number.isFinite(body.velocity.x)
-    && Number.isFinite(body.velocity.y)
-    && (!body.acceleration || (Number.isFinite(body.acceleration.x) && Number.isFinite(body.acceleration.y)));
-}
-
-function allBodiesFinite(bodies) {
-  return bodies.every(isFiniteBody);
 }
 
 function canonicalFinalState(state) {
@@ -89,10 +45,7 @@ function runScenario() {
   const initial = {
     bodyCount: initialBodies.length,
     stepCount: state.simulation.stepCount,
-    totalEnergy: totalEnergy(initialBodies),
-    totalMomentum: totalMomentum(initialBodies),
-    totalAngularMomentum: totalAngularMomentum(initialBodies),
-    finite: allBodiesFinite(initialBodies)
+    ...createInvariantSnapshot(initialBodies, physicsConfig)
   };
 
   for (let step = 0; step < baselineConfig.stepCount; step += 1) {
@@ -103,29 +56,16 @@ function runScenario() {
   const final = {
     bodyCount: finalBodies.length,
     stepCount: state.simulation.stepCount,
-    totalEnergy: totalEnergy(finalBodies),
-    totalMomentum: totalMomentum(finalBodies),
-    totalAngularMomentum: totalAngularMomentum(finalBodies),
-    finite: allBodiesFinite(finalBodies)
+    ...createInvariantSnapshot(finalBodies, physicsConfig)
   };
 
-  const relativeEnergyDrift = Math.abs(final.totalEnergy - initial.totalEnergy) / Math.max(Math.abs(initial.totalEnergy), Number.EPSILON);
-  const momentumDriftVector = {
-    x: final.totalMomentum.x - initial.totalMomentum.x,
-    y: final.totalMomentum.y - initial.totalMomentum.y
-  };
-  const momentumDrift = vectorMagnitude(momentumDriftVector);
-  const angularMomentumDrift = Math.abs(final.totalAngularMomentum - initial.totalAngularMomentum);
-  const relativeAngularMomentumDrift = angularMomentumDrift / Math.max(Math.abs(initial.totalAngularMomentum), Number.EPSILON);
+  const comparison = compareInvariantSnapshot(initial, final);
 
   return {
     state,
     initial,
     final,
-    relativeEnergyDrift,
-    momentumDrift,
-    angularMomentumDrift,
-    relativeAngularMomentumDrift,
+    ...comparison,
     canonicalFinalState: canonicalFinalState(state)
   };
 }

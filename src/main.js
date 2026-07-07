@@ -1,5 +1,6 @@
 import { resetSimulation } from "./simulation/reset.js";
 import { stepSimulation } from "./simulation/step.js";
+import { compareInvariantSnapshot, createInvariantSnapshot } from "./simulation/diagnostics.js";
 import { createCamera } from "./render/camera.js";
 import { createRenderer } from "./render/renderer.js";
 import { initControls } from "./ui/controls.js";
@@ -17,6 +18,23 @@ const state = resetSimulation();
 state.camera = createCamera(state.camera);
 
 let controls;
+
+function resetDiagnosticsReference() {
+  const reference = createInvariantSnapshot(state.simulation.bodies);
+
+  state.diagnostics.reference = reference;
+  state.diagnostics.current = reference;
+  state.diagnostics.comparison = compareInvariantSnapshot(reference, reference);
+}
+
+function updateDiagnosticsCurrent() {
+  const current = createInvariantSnapshot(state.simulation.bodies);
+
+  state.diagnostics.current = current;
+  state.diagnostics.comparison = state.diagnostics.reference
+    ? compareInvariantSnapshot(state.diagnostics.reference, current)
+    : null;
+}
 
 function resizeCanvas() {
   const rect = canvas.getBoundingClientRect();
@@ -57,6 +75,7 @@ function resetApp() {
   state.simulation = fresh.simulation;
   state.ui.paused = true;
   state.ui.selectedBodyId = null;
+  resetDiagnosticsReference();
   fitCameraToBodies();
   renderer.resetPresentation();
 }
@@ -92,6 +111,8 @@ function updateCanvasCursor(event) {
   const body = renderer.findBodyAtPoint(state, state.camera, point);
   canvas.style.cursor = body ? "pointer" : "default";
 }
+
+resetDiagnosticsReference();
 
 controls = initControls({
   document,
@@ -129,6 +150,7 @@ function frame() {
     for (let step = 0; step < stepsThisFrame; step += 1) {
       stepSimulation(state);
     }
+    updateDiagnosticsCurrent();
     controls.updateInspector();
   }
 

@@ -356,6 +356,7 @@ Simulation
 * src/simulation/presets.js
 * src/simulation/reset.js
 * src/simulation/step.js
+* src/simulation/diagnostics.js
 
 Render
 

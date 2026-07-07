@@ -765,7 +765,50 @@ Accepted limitations:
 
 ---
 
-25. Final acceptance statement
+25. Live invariant telemetry acceptance
+
+The Task 10B live invariant telemetry milestone is accepted only when all of these remain true.
+
+Browser behavior:
+
+* invariant telemetry is visible on initial load
+* telemetry shows total energy
+* telemetry shows relative energy drift since reset/reference
+* telemetry shows total momentum magnitude
+* telemetry shows relative angular momentum drift since reset/reference
+* telemetry values are labeled as normalized educational units
+* reset resets the reference snapshot
+* speed and zoom do not change telemetry semantics
+
+Architecture preservation:
+
+* invariant formulas live in src/simulation/diagnostics.js
+* src/dev/baseline.js uses shared diagnostics logic
+* UI displays formatted diagnostics but does not implement invariant formulas
+* renderer does not import diagnostics
+* diagnostics do not mutate simulation bodies
+* diagnostics state remains separate from state.simulation bodies
+
+Verification:
+
+* node src/dev/baseline.js must remain PASS
+* relative energy drift must remain 4.290851857533e-11
+* momentum drift must remain 7.808913380318e-20
+* relative angular momentum drift must remain 3.213114654476e-15
+
+Not included:
+
+* barycenter marker
+* oscilloscope graph
+* time reversal
+* integrator race
+* new presets
+* screenshot
+* GitHub Pages
+
+---
+
+26. Final acceptance statement
 
 The implementation is accepted only when this statement is true:
 

@@ -144,7 +144,7 @@ Allowed direction:
 * simulation may import config and physics
 * render may import camera and read simulation state
 * UI may be wired through main
-* baseline may import config, physics, and simulation
+* baseline may import config, physics, simulation, and diagnostics
 
 Forbidden direction:
 
@@ -260,6 +260,7 @@ Purpose:
 Expected state categories:
 
 * simulation state
+* diagnostics state
 * camera state
 * UI state
 * render state if needed
@@ -276,6 +277,10 @@ Simulation state must not contain:
 Camera state may contain center and zoom.
 
 UI state may contain selected body id, pause/play state, and speed selection.
+
+Diagnostics state may contain read-only reference/current invariant snapshots and drift comparisons.
+
+Diagnostics state must not contain mutable body ownership.
 
 ---
 
@@ -443,6 +448,28 @@ Forbidden:
 The render loop may request simulation advancement.
 
 The simulation step must remain independent.
+
+---
+
+14a. src/simulation/diagnostics.js
+
+Purpose:
+
+* provide shared pure invariant calculations
+* provide invariant snapshots and comparisons for baseline and browser telemetry
+* keep scientific observability logic out of UI and renderer code
+
+Allowed:
+
+* read body mass, position, velocity, and acceleration values
+* import pure physics helpers such as computePotentialEnergy
+* compute energy, momentum, angular momentum, finite-state status, and drift comparisons
+
+Forbidden:
+
+* mutating bodies
+* mutating app state
+* importing DOM, canvas, renderer, UI, main, Date, performance, or random APIs
 
 ---
 
@@ -751,6 +778,10 @@ The inspector is read-only diagnostic UI.
 The inspector may compute derived display-only values from body position and velocity.
 
 Derived inspector values must not be stored into body or state.
+
+Invariant telemetry formulas must not live in the inspector. Shared diagnostics owns invariant calculations.
+
+The inspector may display formatted read-only invariant telemetry from state.diagnostics.
 
 The inspector must not become a physics editor by default.
 
