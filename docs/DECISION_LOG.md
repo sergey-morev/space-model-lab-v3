@@ -1059,6 +1059,67 @@ Screenshot assets remain deferred. GitHub Pages, Actions, features, and addition
 
 ---
 
+D-v3-023 - v3 scientific observability scope boundary accepted
+
+Status: ACCEPTED
+Date: 2026-07-06
+
+Context
+
+After public README positioning, the v0-review tag, and display-label clarification, the project considered whether v3 should be closed and future visual work moved to v4.
+
+The accepted correction is that v3 should not be frozen, but should remain narrowly scoped.
+
+Decision
+
+v3 remains the canonical educational Newtonian N-body cockpit.
+
+v3 remains open for invariant observability and reviewer-facing scientific overlays.
+
+In-scope v3 candidates include:
+
+* live energy / relative drift readout
+* momentum readout
+* angular momentum readout
+* barycenter / center-of-mass marker
+* later energy mini-graph if separately approved
+
+Higher-risk observability candidates such as time reversal and integrator race require separate D-records and audits.
+
+Presets, broad UI playground controls, aesthetic/fantasy modes, pseudo-GR, black holes, garlands, cinematic visual drama, and speculative effects are deferred to v4 by default.
+
+Presets may only enter v3 through an explicit future D-record exception.
+
+Rationale
+
+v3's differentiator is not visual hype. It is reviewable physics: baseline, invariants, architecture boundaries, and observed validation.
+
+Observability overlays make the accepted baseline visible in the browser and therefore strengthen v3 rather than dilute it.
+
+Aesthetic/experimental features would blur the reference artifact and belong in v4.
+
+Consequences
+
+Screenshot remains deferred until the cockpit visually communicates the scientific differentiator.
+
+GitHub Pages remains deferred until after observability planning or a separate deployment decision.
+
+Next intended task is T10A read-only observability planning audit.
+
+T10A must answer where invariant calculations live, whether a shared diagnostics module is needed, and who owns the drift reference snapshot.
+
+Not decided
+
+No live telemetry implementation is accepted yet.
+
+No diagnostics module is accepted yet.
+
+No barycenter marker is accepted yet.
+
+No oscilloscope, time reversal, integrator race, presets, Pages, screenshot, Actions, or v4 repo/branch strategy is accepted yet.
+
+---
+
 Active decision summary
 
 Accepted:
@@ -1085,3 +1146,4 @@ Accepted:
 * D-v3-020 - Public recovery wording clarified
 * D-v3-021 - Public review positioning accepted
 * D-v3-022 - Public display labels clarified
+* D-v3-023 - v3 scientific observability scope boundary accepted
