@@ -592,7 +592,7 @@ Current accepted browser preview path:
 * start-space-model-lab.bat is the canonical Windows launch path
 * tools/serve-local.js is the canonical Node local server
 * http://127.0.0.1:4173/ is the accepted local preview URL
-* https://drmorev.github.io/space-model-lab-v3/ is the accepted public preview URL
+* https://sergey-morev.github.io/space-model-lab-v3/ is the accepted public preview URL
 * npm run preview is an alternate script path when npm is available
 * direct file:// index.html is not the canonical acceptance path
 * .exe packaging is not accepted in this milestone

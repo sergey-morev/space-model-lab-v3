@@ -1010,7 +1010,7 @@ Known Task 6C limitations:
 The accepted public preview architecture after Task 11B is:
 
 * GitHub Pages serves the browser cockpit from branch main, folder / root
-* public URL is https://drmorev.github.io/space-model-lab-v3/
+* public URL is https://sergey-morev.github.io/space-model-lab-v3/
 * Pages serves the same static index.html, styles.css, and JavaScript module graph as the local preview
 * no build step, dependency, bundler, Action, or runtime server is required for Pages
 * Pages is public presentation, not invariant verification authority

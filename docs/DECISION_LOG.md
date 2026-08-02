@@ -1253,7 +1253,7 @@ The accepted Pages source configuration is branch main, folder / root.
 The live URL is:
 
 ```text
-https://drmorev.github.io/space-model-lab-v3/
+https://sergey-morev.github.io/space-model-lab-v3/
 ```
 
 The accepted deployed commit at the time of verification is:

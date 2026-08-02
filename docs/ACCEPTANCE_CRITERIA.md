@@ -859,7 +859,7 @@ Pages configuration:
 * source is deploy from branch
 * branch is main
 * folder is / root
-* public URL is https://drmorev.github.io/space-model-lab-v3/
+* public URL is https://sergey-morev.github.io/space-model-lab-v3/
 * deployed commit at acceptance time is 843ca0143b3fe644445f466297ea9871d1b36866
 
 Public cockpit behavior:

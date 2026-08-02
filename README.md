@@ -28,7 +28,7 @@ The public review path is based on the live cockpit, observed baseline verificat
 GitHub Pages public preview:
 
 ```text
-https://drmorev.github.io/space-model-lab-v3/
+https://sergey-morev.github.io/space-model-lab-v3/
 ```
 
 The live cockpit shows the normalized educational N-body sandbox, live invariant telemetry, and a barycenter / center-of-mass marker.
