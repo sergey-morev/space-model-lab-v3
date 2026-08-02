@@ -448,7 +448,7 @@ Accepted implementation state:
 * no-dependency local HTTP launcher accepted
 * Windows launcher accepted as the canonical double-click launch path
 * repo-local recovery capsule accepted
-* GitHub Pages public preview accepted at https://drmorev.github.io/space-model-lab-v3/
+* GitHub Pages public preview accepted at https://sergey-morev.github.io/space-model-lab-v3/
 
 Task 5C accepted baseline:
 
@@ -493,7 +493,7 @@ Task 7B accepted recovery path:
 
 Task 11B accepted public preview path:
 
-* GitHub Pages public preview is live at https://drmorev.github.io/space-model-lab-v3/
+* GitHub Pages public preview is live at https://sergey-morev.github.io/space-model-lab-v3/
 * Pages source is branch main, folder / root
 * accepted deployed commit at verification time is 843ca0143b3fe644445f466297ea9871d1b36866
 * live cockpit includes T10B live invariant telemetry and T10C barycenter marker
@@ -509,7 +509,7 @@ Current constraints remain:
 * no collision, ephemeris, GR, black-hole, or lensing behavior
 * start-space-model-lab.bat plus Node local server is the canonical local launch path
 * local HTTP server at http://127.0.0.1:4173/ is the canonical local browser preview path
-* GitHub Pages at https://drmorev.github.io/space-model-lab-v3/ is the accepted public preview path
+* GitHub Pages at https://sergey-morev.github.io/space-model-lab-v3/ is the accepted public preview path
 * direct file:// index.html is not the canonical acceptance path
 
 ---

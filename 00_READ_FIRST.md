@@ -79,7 +79,7 @@ http://127.0.0.1:4173/
 Canonical public Pages URL:
 
 ```text
-https://drmorev.github.io/space-model-lab-v3/
+https://sergey-morev.github.io/space-model-lab-v3/
 ```
 
 GitHub Pages is the public presentation path. It is not a replacement for local baseline validation.
@@ -218,7 +218,7 @@ Browser QA for launcher/runtime tasks:
 
 Public Pages QA after Pages-related tasks:
 
-* open `https://drmorev.github.io/space-model-lab-v3/`
+* open `https://sergey-morev.github.io/space-model-lab-v3/`
 * cockpit loads
 * live invariant telemetry is visible
 * barycenter marker is visible
