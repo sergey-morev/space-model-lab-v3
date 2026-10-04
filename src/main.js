@@ -1,6 +1,7 @@
 import { resetSimulation } from "./simulation/reset.js";
 import { stepSimulation } from "./simulation/step.js";
-import { compareInvariantSnapshot, createInvariantSnapshot } from "./simulation/diagnostics.js";
+import { compareInvariantSnapshot, createInvariantSnapshot, computeRelativeMotion } from "./simulation/diagnostics.js";
+import { BASELINE_PRESET_ID, HIERARCHY_PRESET_ID } from "./simulation/presets.js";
 import { createCamera } from "./render/camera.js";
 import { createRenderer } from "./render/renderer.js";
 import { initControls } from "./ui/controls.js";
@@ -21,6 +22,7 @@ let controls;
 
 function resetDiagnosticsReference() {
   const reference = createInvariantSnapshot(state.simulation.bodies);
+  reference.relativeMotionByBodyId = computeRelativeMotion(state.simulation.bodies);
 
   state.diagnostics.reference = reference;
   state.diagnostics.current = reference;
@@ -29,6 +31,7 @@ function resetDiagnosticsReference() {
 
 function updateDiagnosticsCurrent() {
   const current = createInvariantSnapshot(state.simulation.bodies);
+  current.relativeMotionByBodyId = computeRelativeMotion(state.simulation.bodies);
 
   state.diagnostics.current = current;
   state.diagnostics.comparison = state.diagnostics.reference
@@ -70,8 +73,8 @@ function fitCameraToBodies() {
   state.camera.zoom = fittedZoom;
 }
 
-function resetApp() {
-  const fresh = resetSimulation();
+function resetApp(presetId = state.simulation.presetId) {
+  const fresh = resetSimulation(presetId);
   state.simulation = fresh.simulation;
   state.ui.paused = true;
   state.ui.selectedBodyId = null;
@@ -122,6 +125,11 @@ controls = initControls({
   },
   onReset() {
     resetApp();
+  },
+  onScenarioChange(presetId) {
+    if (presetId === BASELINE_PRESET_ID || presetId === HIERARCHY_PRESET_ID) {
+      resetApp(presetId);
+    }
   },
   onSpeedChange(speed) {
     state.ui.speed = clampStepsPerFrame(speed);

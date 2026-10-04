@@ -1,6 +1,7 @@
 import { APP_CONFIG } from "../config.js";
 
 export const BASELINE_PRESET_ID = APP_CONFIG.baseline.presetId;
+export const HIERARCHY_PRESET_ID = "normalized-star-planet-moon";
 
 function freezeBody(body) {
   return Object.freeze({
@@ -117,6 +118,33 @@ export const PRESETS = Object.freeze({
     shortestPeriodBodyId: APP_CONFIG.baseline.shortestPeriodBodyId,
     shortestPeriodApprox: APP_CONFIG.baseline.shortestPeriodApprox,
     bodies: baselineBodies
+  }),
+  [HIERARCHY_PRESET_ID]: Object.freeze({
+    id: HIERARCHY_PRESET_ID,
+    name: "Star–Planet–Moon",
+    note: "Fixed, mutually gravitating educational hierarchy. Validated for 50 normalized time; not a long-term stability or real ephemeris claim.",
+    // Frozen untuned feasibility seed. Outer monopole was initialization only;
+    // every subsequent step uses the unchanged actual pairwise force.
+    bodies: Object.freeze([
+      freezeBody({
+        id: "star", name: "Star", role: "recoiling outer primary", mass: 1,
+        color: "#ffd166", visualRadius: 12,
+        position: { x: -0.01962706613595812, y: 0 },
+        velocity: { x: 0, y: -0.0198225446056207 }
+      }),
+      freezeBody({
+        id: "planet", name: "Planet", role: "recoiling inner primary", mass: 0.02,
+        color: "#6fb7ff", visualRadius: 6, referenceBodyId: "star",
+        position: { x: 0.980372933864042, y: -0.00005994005994005994 },
+        velocity: { x: 0.0005769416183836161, y: 0.9901370931878473 }
+      }),
+      freezeBody({
+        id: "moon", name: "Moon", role: "inner companion", mass: 0.00002,
+        color: "#d8dce5", visualRadius: 3, referenceBodyId: "planet",
+        position: { x: 0.980372933864042, y: 0.05994005994005994 },
+        velocity: { x: -0.5769416183836161, y: 0.9901370931878473 }
+      })
+    ])
   })
 });
 

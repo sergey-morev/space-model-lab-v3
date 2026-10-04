@@ -115,6 +115,7 @@ ui/
 controls.js
 dev/
 baseline.js
+hierarchy-check.js
 
 No additional files should be created unless an accepted decision or approved prompt authorizes them.
 
@@ -1034,3 +1035,16 @@ UI is user intent.
 Baseline is headless verification.
 
 The architecture must make the correct thing easy and the old failure mode difficult.
+
+
+---
+
+D-v3-029 fixed hierarchy data flow
+
+Exactly two immutable presets live in src/simulation/presets.js: the unchanged default baseline and the frozen Star–Planet–Moon seed. resetSimulation already clones metadata and body vectors, so its implementation is unchanged. referenceBodyId is never consumed by physics or stepSimulation.
+
+Pure computeRelativeMotion in diagnostics.js owns reference subtraction and magnitudes. Composition attaches its result as state.diagnostics.current.relativeMotionByBodyId alongside the existing invariant snapshot; the invariant snapshot API itself is unchanged. UI formats this derived data and never calculates reference-relative formulas. Renderer, camera and state.js remain unchanged.
+
+main.js routes the selector and Reset through a single current-scenario reset path. That path replaces simulation state, pauses, clears selectedBodyId, resets diagnostic references, clears renderer presentation caches and refits the existing camera; state.ui.speed is preserved. The selector accepts only the two authorized IDs. UI synchronizes selector, preset ID, count and reference-relative values from state.
+
+The independent hierarchy-check.js fixture uses built-in Node assertions and existing config/physics/simulation/diagnostics only, with no DOM, UI, render, camera, main or server imports. It checks exact preset resolution and seed, every-step summaries, repeated canonical state, analytic pair and observation-only metadata. observable-check.js verifies the changed controls contract with fake DOM; real browser QA remains separate. No dependencies, worker, framework or preset abstraction are added.

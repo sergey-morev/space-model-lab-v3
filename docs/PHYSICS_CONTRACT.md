@@ -592,3 +592,16 @@ A physics implementation is acceptable only if:
 * no real-ephemeris claims are made
 
 If any of these are false, the physics contract is not satisfied.
+
+
+---
+
+D-v3-029 fixed hierarchical demonstrator contract
+
+The six-body normalized-educational-nbody preset remains the default and unchanged baseline fixture. The only additional runtime scenario is normalized-star-planet-moon, with masses 1, 0.02 and 0.00002. Its literal seed in src/simulation/presets.js is frozen from the untuned feasibility PASS; executable initialization must not recalculate or tune it. Outer monopole circular motion was used for seed construction only; every subsequent step integrates all three real bodies with recoil and pairwise softened gravity.
+
+The force law, integrator, G=1, dt=0.001, softening=0.001 and baseline tolerances are unchanged. referenceBodyId is an observation frame only. computeRelativeMotion subtracts body/reference world position and velocity and returns their vector magnitudes without mutating bodies. Missing/invalid/self references are explicitly invalid; absent references are valid with unavailable relative fields. Global invariant snapshot semantics are unchanged.
+
+node src/dev/hierarchy-check.js verifies 50000 steps (50 normalized time), twice, including every step. Initial |P| and barycenter distance must each be <=1e-12. Peak relative energy drift <=1e-3, momentum drift <=1e-9, relative angular momentum drift <=1e-6 and barycenter propagation error from R(0)+P(0)*(n*dt)/M <=1e-9. Planet–Moon separation stays in [0.03,0.12]; Star–inner COM separation stays in [0.8,1.2]. Moon prograde windings >=50 and inner COM prograde windings >=6. The same-engine canonical final states must match exactly.
+
+The isolated softened Planet–Moon analytic relative-position error, normalized by initial separation, must be <=1e-3 at the actual integer-step time near one inner period. Recoil, translation and uniform-velocity boost covariance are directly asserted. These checks establish finite-horizon feasibility, not permanent stability, real astronomy or universal trajectory accuracy. The feature remains subject to independent exact-SHA audit and merge acceptance.
