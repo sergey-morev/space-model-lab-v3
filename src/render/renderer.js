@@ -1,4 +1,3 @@
-import { APP_CONFIG } from "../config.js";
 import { worldToScreen } from "./camera.js";
 
 const TRAIL_LIMIT = 150;
@@ -77,9 +76,9 @@ export function createRenderer(canvas) {
       canvas.height * 0.5,
       Math.max(canvas.width, canvas.height) * 0.72
     );
-    gradient.addColorStop(0, "#101827");
-    gradient.addColorStop(0.55, APP_CONFIG.canvas.background);
-    gradient.addColorStop(1, "#02040a");
+    gradient.addColorStop(0, "#101010");
+    gradient.addColorStop(0.55, "#090909");
+    gradient.addColorStop(1, "#050505");
 
     context.fillStyle = gradient;
     context.fillRect(0, 0, canvas.width, canvas.height);
@@ -90,7 +89,7 @@ export function createRenderer(canvas) {
       context.globalAlpha = star.alpha;
       context.beginPath();
       context.arc(star.x, star.y, star.radius * pixelRatio(), 0, Math.PI * 2);
-      context.fillStyle = "#d8e7ff";
+      context.fillStyle = "#dddddd";
       context.fill();
     }
     context.restore();
@@ -249,22 +248,6 @@ export function createRenderer(canvas) {
     return nearestBody;
   }
 
-  function drawOverlay(state) {
-    const ratio = pixelRatio();
-    const x = 20 * ratio;
-    const firstLine = 32 * ratio;
-    const lineGap = 22 * ratio;
-
-    context.fillStyle = "#e6edf5";
-    context.font = `${16 * ratio}px system-ui, sans-serif`;
-    context.fillText("Space Model Lab v3 - Physics kernel active", x, firstLine);
-
-    context.fillStyle = "#9dacbd";
-    context.font = `${13 * ratio}px system-ui, sans-serif`;
-    context.fillText("Educational normalized Newtonian N-body sandbox", x, firstLine + lineGap);
-    context.fillText(`Steps: ${state.simulation.stepCount}`, x, firstLine + lineGap * 2);
-  }
-
   function draw(state, camera) {
     clear();
     const renderCamera = {
@@ -276,7 +259,6 @@ export function createRenderer(canvas) {
       drawBody(body, renderCamera);
     }
     drawBarycenterMarker(state, renderCamera);
-    drawOverlay(state);
   }
 
   function resetPresentation() {

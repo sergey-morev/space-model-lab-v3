@@ -7,29 +7,106 @@
     <link rel="stylesheet" href="styles.css">
   </head>
   <body>
-    <main class="app-shell">
-      <section class="sim-area" aria-label="Simulation viewport">
-        <canvas id="space-canvas" width="960" height="640"></canvas>
-      </section>
+    <div class="app-shell">
+      <header class="app-header">
+        <a class="app-brand" href="./" aria-label="Space Model Lab home">
+          <svg class="brand-mark" viewBox="0 0 28 28" fill="none" aria-hidden="true"><circle cx="14" cy="14" r="8"/><path d="M14 1v7m0 12v7M1 14h7m12 0h7"/><circle cx="14" cy="14" r="2"/></svg>
+          <h1>Space Model Lab <span class="version">v3</span></h1>
+        </a>
+        <span class="workspace-name">Observable cockpit</span>
+        <span class="kernel-status"><span class="status-dot"></span>Physics kernel active</span>
+      </header>
 
-      <aside class="control-panel" aria-label="Controls and inspector">
-        <h1>Space Model Lab v3</h1>
-        <p class="status">Physics kernel active. Headless invariant baseline available through node src/dev/baseline.js.</p>
-
-        <div class="controls">
-          <button id="toggle-run" type="button">Play</button>
-          <button id="reset-sim" type="button">Reset</button>
-          <button id="zoom-out" type="button">-</button>
-          <button id="zoom-in" type="button">+</button>
-          <label>
-            Fixed steps per frame
-            <input id="speed-control" type="range" min="1" max="4" step="1" value="1">
-          </label>
+      <div class="command-bar" role="group" aria-label="Simulation controls">
+        <div class="control-group transport">
+          <button id="toggle-run" class="run-button" type="button" title="Play simulation" aria-pressed="false">
+            <svg id="play-icon" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="m6 3 11 7-11 7z"/></svg>
+            <svg id="pause-icon" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" hidden><path d="M5 3h4v14H5zm7 0h4v14h-4z"/></svg>
+            <span id="toggle-run-label">Play</span>
+          </button>
+          <button id="reset-sim" class="icon-button" type="button" title="Reset simulation" aria-label="Reset simulation"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M3.5 7A7 7 0 1 1 3 12M3 3v5h5"/></svg></button>
         </div>
+        <div class="control-group speed-group">
+          <label for="speed-control">Steps / frame</label>
+          <input id="speed-control" type="range" min="1" max="4" step="1" value="1" aria-describedby="speed-value">
+          <output id="speed-value" for="speed-control">1</output>
+        </div>
+        <div class="control-group zoom-group">
+          <button id="zoom-out" class="icon-button" type="button" title="Zoom out" aria-label="Zoom out"><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="8.5" cy="8.5" r="5.5"/><path d="m13 13 4 4M6 8.5h5"/></svg></button>
+          <span id="zoom-value" class="zoom-value" title="Camera scale, render only">180</span>
+          <button id="zoom-in" class="icon-button" type="button" title="Zoom in" aria-label="Zoom in"><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="8.5" cy="8.5" r="5.5"/><path d="m13 13 4 4M6 8.5h5m-2.5-2.5v5"/></svg></button>
+        </div>
+        <span class="command-context">Normalized Newtonian N-body</span>
+      </div>
 
-        <pre id="inspector" class="inspector">Physics kernel active.</pre>
-      </aside>
-    </main>
+      <main class="workspace">
+        <section class="sim-area" aria-label="Simulation viewport">
+          <div class="viewport-header"><span><span class="viewport-dot"></span>World view</span><span>2D &middot; Orthographic</span></div>
+          <div class="canvas-wrap"><canvas id="space-canvas" width="960" height="640" aria-label="N-body simulation. Click a body to inspect it."></canvas></div>
+          <div class="viewport-footer"><span><span class="barycenter-symbol" aria-hidden="true">+</span>Center of mass</span><span>Camera projection only</span></div>
+        </section>
+
+        <aside id="inspector" class="control-panel" aria-label="Inspector and diagnostics">
+          <div class="panel-heading"><span>Inspector</span><span class="panel-heading-detail">Read only</span></div>
+          <section class="inspector-section telemetry-section" aria-labelledby="telemetry-heading">
+            <div class="section-heading"><h2 id="telemetry-heading">Invariant telemetry</h2><span class="section-tag">LIVE</span></div>
+            <p class="section-caption">Relative drift from the reset reference.</p>
+            <dl class="telemetry-values">
+              <div><dt>Energy</dt><dd id="metric-energy">n/a</dd></div>
+              <div><dt aria-label="Delta E / E">&Delta;E / E</dt><dd id="metric-energy-drift">n/a</dd></div>
+              <div><dt title="Total momentum magnitude">|P|</dt><dd id="metric-momentum">n/a</dd></div>
+              <div><dt aria-label="Delta L / L">&Delta;L / L</dt><dd id="metric-angular-drift">n/a</dd></div>
+            </dl>
+          </section>
+
+          <section class="inspector-section selected-section" aria-labelledby="selected-heading">
+            <div class="section-heading"><h2 id="selected-heading">Selected body</h2><span id="selection-indicator" class="selection-indicator"></span></div>
+            <p id="selection-empty" class="empty-selection">Select a body to inspect normalized orbital diagnostics.</p>
+            <div id="selection-details" hidden>
+              <div class="body-identity"><span id="body-color-swatch" class="body-color-swatch"></span><strong id="body-name">none</strong><span id="body-role" class="body-role">n/a</span></div>
+              <dl class="property-list">
+                <div><dt>ID</dt><dd id="body-id">n/a</dd></div>
+                <div><dt>Mass <span class="unit">normalized</span></dt><dd id="body-mass">n/a</dd></div>
+                <div><dt>Distance <span class="unit">from origin</span></dt><dd id="body-distance">n/a</dd></div>
+                <div><dt>Speed <span class="unit">normalized</span></dt><dd id="body-speed">n/a</dd></div>
+              </dl>
+              <h3 class="property-heading">Position <span>normalized units</span></h3>
+              <dl class="vector-values"><div><dt>X</dt><dd id="body-position-x">n/a</dd></div><div><dt>Y</dt><dd id="body-position-y">n/a</dd></div></dl>
+              <h3 class="property-heading">Velocity <span>normalized units / time</span></h3>
+              <dl class="vector-values"><div><dt>X</dt><dd id="body-velocity-x">n/a</dd></div><div><dt>Y</dt><dd id="body-velocity-y">n/a</dd></div></dl>
+              <details class="visual-details"><summary>Visual properties</summary><dl class="property-list"><div><dt>Radius <span class="unit">screen px</span></dt><dd id="body-radius">n/a</dd></div><div><dt>Color</dt><dd id="body-color">n/a</dd></div></dl></details>
+            </div>
+          </section>
+
+          <section class="inspector-section simulation-section" aria-labelledby="simulation-heading">
+            <div class="section-heading"><h2 id="simulation-heading">Simulation</h2><span id="simulation-mode" class="mode-tag">Paused</span></div>
+            <dl class="property-list">
+              <div><dt>Status</dt><dd id="simulation-status">n/a</dd></div>
+              <div><dt>Preset ID</dt><dd id="simulation-preset">n/a</dd></div>
+              <div><dt>Bodies</dt><dd id="simulation-bodies">0</dd></div>
+              <div><dt>Time</dt><dd id="simulation-time">0.000</dd></div>
+              <div><dt>Steps</dt><dd id="simulation-steps">0</dd></div>
+              <div><dt>Fixed steps / frame</dt><dd id="simulation-speed">1</dd></div>
+              <div><dt>Camera scale</dt><dd id="simulation-zoom">180</dd></div>
+              <div><dt>Selected body</dt><dd id="simulation-selected">none</dd></div>
+            </dl>
+          </section>
+          <section class="inspector-section note-section" aria-label="Model note">
+            <p class="units-note">Normalized educational units.<br>Not real ephemeris data.</p>
+            <details class="model-note"><summary>Model note</summary><p id="simulation-note"></p></details>
+          </section>
+        </aside>
+      </main>
+
+      <footer class="status-bar">
+        <span class="status-mode"><span id="run-status-dot" class="status-dot paused"></span><span id="footer-mode">Paused</span></span>
+        <span>Time <strong id="footer-time">0.000</strong></span>
+        <span>Steps <strong id="footer-steps">0</strong></span>
+        <span><strong id="footer-bodies">6</strong> bodies</span>
+        <span class="status-selection">Selection <strong id="footer-selected">none</strong></span>
+        <span class="status-engine">Newtonian &middot; Fixed step</span>
+      </footer>
+    </div>
 
     <script type="module" src="src/main.js"></script>
   </body>

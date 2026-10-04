@@ -1339,6 +1339,43 @@ No screenshot, oscilloscope, time reversal, integrator race, new preset, GitHub 
 
 ---
 
+D-v3-028 - Professional cockpit presentation scope accepted
+
+Status: ACCEPTED
+Date: 2026-10-04
+
+Context
+
+The PI requested and authorized a black professional workspace inspired by desktop creative tools, while preserving the accepted educational Newtonian system and its scientific observability. Publication remains subject to the commit approval gate.
+
+Decision
+
+This is a narrow presentation exception to D-v3-023: the existing controls and diagnostics may be reorganized for readability without expanding the product surface.
+
+The interface uses a compact command bar, a full workspace viewport, a structured read-only inspector, and a simulation status bar.
+
+Invariant telemetry stays visible in the first inspector section. Selected-body values and simulation information have separate sections. The model remains explicitly labeled as normalized educational units, not real ephemeris data.
+
+The inspector updates existing value nodes rather than replacing its contents every frame, preserving focus, disclosures, and scroll position.
+
+The velocity label uses normalized units per simulation time: the integrator multiplies velocity by the fixed timestep. This corrects the previous units-per-step display label without changing numeric values.
+
+The renderer background uses neutral black tones. Duplicate canvas title/status text moves into the workspace chrome; bodies, projection, selection, trails, and barycenter drawing are preserved.
+
+The headless observable check is adapted to the structured inspector and extended to verify displayed values, selection updates, missing/non-finite fallbacks, callback routing, and display-only state boundaries.
+
+Consequences
+
+Physics, simulation, diagnostics, preset values, camera semantics, and the fixed-step main loop remain unchanged. No dependency, framework, build step, asset, deployment setting, or tag change is introduced.
+
+Real browser verification and PI review are required before publication. The existing milestone tags remain frozen.
+
+Not decided
+
+No new preset, physics editor, broad controls, docking system, 3D simulation, cinematic mode, screenshot asset, graph, or v4 feature is authorized by this interface refinement.
+
+---
+
 Active decision summary
 
 Accepted:
@@ -1370,3 +1407,4 @@ Accepted:
 * D-v3-025 - Barycenter marker accepted
 * D-v3-026 - GitHub Pages public preview accepted
 * D-v3-027 - Observable-layer verification harness accepted
+* D-v3-028 - Professional cockpit presentation scope accepted
