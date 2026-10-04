@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import { readFileSync } from "node:fs";
 
 import {
   compareInvariantSnapshot,
@@ -120,17 +121,51 @@ class FakeElement {
   constructor() {
     this.value = "";
     this.textContent = "";
+    this.hidden = false;
+    this.style = {};
+    this.attributes = new Map();
     this.listeners = new Map();
+    const classes = new Set();
+    this.classList = {
+      toggle(name, enabled) {
+        if (enabled) {
+          classes.add(name);
+        } else {
+          classes.delete(name);
+        }
+      },
+      contains(name) {
+        return classes.has(name);
+      }
+    };
   }
 
   addEventListener(type, listener) {
     this.listeners.set(type, listener);
   }
+
+  setAttribute(name, value) {
+    this.attributes.set(name, value);
+  }
+
+  toggleAttribute(name, enabled) {
+    if (enabled) {
+      this.attributes.set(name, "");
+    } else {
+      this.attributes.delete(name);
+    }
+    return enabled;
+  }
 }
 
 function createFakeDocument() {
+  const markup = readFileSync(new URL("../../index.html", import.meta.url), "utf8");
   const elements = new Map();
-  for (const id of ["toggle-run", "reset-sim", "speed-control", "zoom-in", "zoom-out", "inspector"]) {
+  for (const [, id] of markup.matchAll(/\bid="([^"]+)"/g)) {
+    assert.equal(elements.has(id), false, `duplicate HTML id: ${id}`);
+    if (id === "space-canvas") {
+      continue;
+    }
     elements.set(id, new FakeElement());
   }
 
@@ -140,7 +175,8 @@ function createFakeDocument() {
       assert.ok(element, `missing fake DOM element: ${id}`);
       return element;
     },
-    elements
+    elements,
+    markup
   };
 }
 
@@ -148,7 +184,7 @@ function assertTelemetryRendering() {
   const fakeDocument = createFakeDocument();
   const state = {
     simulation: {
-      bodies: [createBody({ id: "sun", name: "Sun" })],
+      bodies: [createBody({ id: "sun", name: "Sun", position: { x: 3, y: 4 }, velocity: { x: 0.3, y: 0.4 } })],
       status: "ready",
       presetId: "test-preset",
       time: 0,
@@ -180,20 +216,98 @@ function assertTelemetryRendering() {
     }
   };
 
-  initControls({
+  let resetCalls = 0;
+  const controls = initControls({
     document: fakeDocument,
     state,
-    onTogglePaused() {},
-    onReset() {},
-    onSpeedChange() {},
-    onZoomIn() {},
-    onZoomOut() {}
+    onTogglePaused() { state.ui.paused = !state.ui.paused; },
+    onReset() { resetCalls += 1; },
+    onSpeedChange(speed) { state.ui.speed = Math.max(1, Math.min(4, Math.trunc(speed))); },
+    onZoomIn() { state.camera.zoom += 20; },
+    onZoomOut() { state.camera.zoom -= 20; }
   });
 
-  const text = fakeDocument.elements.get("inspector").textContent;
-  for (const label of ["INVARIANT TELEMETRY", "Energy", "Delta E / E", "|P|", "Delta L / L"]) {
-    assert.ok(text.includes(label), `telemetry inspector text missing: ${label}`);
+  function node(id) { return fakeDocument.getElementById(id); }
+  function assertText(id, expected) { assert.equal(node(id).textContent, expected, id); }
+  function dispatch(id, type) {
+    const listener = node(id).listeners.get(type);
+    assert.ok(listener, `missing ${type} listener: ${id}`);
+    listener();
   }
+
+  for (const label of ["Invariant telemetry", "Energy", "Delta E / E", "|P|", "Delta L / L"]) {
+    assert.ok(fakeDocument.markup.includes(label), `HTML telemetry label missing: ${label}`);
+  }
+  assertText("metric-energy", "-1.2500000000e+0");
+  assertText("metric-energy-drift", "1.000000e-8");
+  assertText("metric-momentum", "0");
+  assertText("metric-angular-drift", "2.000000e-9");
+  assert.equal(node("play-icon").attributes.has("hidden"), false);
+  assert.equal(node("pause-icon").attributes.has("hidden"), true);
+  assert.equal(node("selection-empty").hidden, false);
+  assert.equal(node("selection-details").hidden, true);
+  assertText("simulation-selected", "none");
+
+  state.ui.selectedBodyId = "sun";
+  const beforeDisplay = structuredClone(state);
+  controls.updateInspector();
+  assert.deepEqual(state, beforeDisplay, "inspector must not mutate app or body state");
+  assert.equal(node("selection-details").hidden, false);
+  assert.equal(node("selection-empty").hidden, true);
+  assertText("body-name", "Sun");
+  assertText("body-distance", "5.000000");
+  assertText("body-speed", "0.500000");
+  assertText("body-position-x", "3.000000");
+  assertText("body-velocity-y", "0.400000");
+
+  // Stepping replaces body objects; the inspector must resolve the selected ID again.
+  state.simulation.bodies = [createBody({ id: "sun", name: "Sun", position: { x: 0, y: 2 }, velocity: { x: 0, y: 1 } })];
+  state.simulation.time = 0.25;
+  state.simulation.stepCount = 250;
+  state.diagnostics.current.totalEnergy = -1.2;
+  controls.updateInspector();
+  assertText("body-distance", "2.000000");
+  assertText("body-speed", "1.000000");
+  assertText("metric-energy", "-1.2000000000e+0");
+  assertText("simulation-time", "0.250");
+  assertText("footer-steps", "250");
+
+  dispatch("toggle-run", "click");
+  assertText("toggle-run-label", "Pause");
+  assert.equal(node("toggle-run").attributes.get("aria-pressed"), "true");
+  assert.equal(node("play-icon").attributes.has("hidden"), true);
+  assert.equal(node("pause-icon").attributes.has("hidden"), false);
+  dispatch("toggle-run", "click");
+  assertText("toggle-run-label", "Play");
+  assert.equal(node("toggle-run").attributes.get("aria-pressed"), "false");
+  assert.equal(node("play-icon").attributes.has("hidden"), false);
+  assert.equal(node("pause-icon").attributes.has("hidden"), true);
+
+  node("speed-control").value = "4";
+  dispatch("speed-control", "input");
+  assert.equal(state.ui.speed, 4);
+  assertText("speed-value", "4");
+  assertText("simulation-speed", "4");
+  dispatch("zoom-in", "click");
+  assert.equal(state.camera.zoom, 200);
+  assertText("zoom-value", "200");
+  dispatch("zoom-out", "click");
+  assert.equal(state.camera.zoom, 180);
+  dispatch("reset-sim", "click");
+  assert.equal(resetCalls, 1, "Reset must call the composition callback");
+
+  state.diagnostics.current = null;
+  state.diagnostics.comparison = null;
+  state.simulation.bodies = [createBody({ id: "sun", mass: Infinity, position: { x: NaN, y: 1 }, velocity: { x: 0, y: Infinity }, visualRadius: NaN })];
+  controls.updateInspector();
+  for (const id of ["metric-energy", "metric-energy-drift", "metric-momentum", "metric-angular-drift", "body-mass", "body-distance", "body-speed", "body-radius"]) {
+    assertText(id, "n/a");
+  }
+  state.ui.selectedBodyId = null;
+  controls.updateInspector();
+  assert.equal(node("selection-details").hidden, true);
+  assert.equal(node("selection-empty").hidden, false);
+  assertText("footer-selected", "none");
 }
 
 function runCheck(name, check) {
