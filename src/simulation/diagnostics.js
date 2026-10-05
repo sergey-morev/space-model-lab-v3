@@ -154,3 +154,44 @@ export function compareInvariantSnapshot(reference, current) {
     finite: Boolean(reference.finite && current.finite)
   };
 }
+
+// Observation frames only: no derived value is written into simulation bodies.
+// A body without a reference is valid; its relative fields are unavailable.
+export function computeRelativeMotion(bodies) {
+  if (!Array.isArray(bodies)) {
+    throw new TypeError("computeRelativeMotion requires an array of bodies.");
+  }
+  const byId = new Map(bodies.map((body) => [body.id, body]));
+  return Object.fromEntries(bodies.map((body) => {
+    const referenceBodyId = body.referenceBodyId ?? null;
+    const reference = byId.get(referenceBodyId);
+    const result = {
+      referenceBodyId,
+      referenceName: reference?.name ?? reference?.id ?? null,
+      valid: referenceBodyId === null,
+      reason: referenceBodyId === null ? "no-reference" : "invalid-reference",
+      relativePosition: null,
+      relativeVelocity: null,
+      distance: null,
+      speed: null
+    };
+    if (referenceBodyId !== null && reference && reference !== body) {
+      const relativePosition = {
+        x: body.position?.x - reference.position?.x,
+        y: body.position?.y - reference.position?.y
+      };
+      const relativeVelocity = {
+        x: body.velocity?.x - reference.velocity?.x,
+        y: body.velocity?.y - reference.velocity?.y
+      };
+      const distance = Math.hypot(relativePosition.x, relativePosition.y);
+      const speed = Math.hypot(relativeVelocity.x, relativeVelocity.y);
+      if (Number.isFinite(distance) && Number.isFinite(speed)) {
+        Object.assign(result, { valid: true, reason: null, relativePosition, relativeVelocity, distance, speed });
+      } else {
+        result.reason = "non-finite-state";
+      }
+    }
+    return [body.id, result];
+  }));
+}

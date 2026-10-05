@@ -4,9 +4,12 @@ import { readFileSync } from "node:fs";
 import {
   compareInvariantSnapshot,
   computeBarycenter,
+  computeRelativeMotion,
   createInvariantSnapshot
 } from "../simulation/diagnostics.js";
 import { initControls } from "../ui/controls.js";
+import { resetSimulation } from "../simulation/reset.js";
+import { BASELINE_PRESET_ID, HIERARCHY_PRESET_ID } from "../simulation/presets.js";
 
 const EPSILON = 1e-12;
 
@@ -222,6 +225,7 @@ function assertTelemetryRendering() {
     state,
     onTogglePaused() { state.ui.paused = !state.ui.paused; },
     onReset() { resetCalls += 1; },
+    onScenarioChange() {},
     onSpeedChange(speed) { state.ui.speed = Math.max(1, Math.min(4, Math.trunc(speed))); },
     onZoomIn() { state.camera.zoom += 20; },
     onZoomOut() { state.camera.zoom -= 20; }
@@ -315,11 +319,91 @@ function runCheck(name, check) {
   console.log(`PASS: ${name}`);
 }
 
+function assertScenarioRendering() {
+  const fakeDocument = createFakeDocument();
+  const state = resetSimulation();
+  const load = (id) => {
+    state.simulation = resetSimulation(id).simulation;
+    state.ui.paused = true;
+    state.ui.selectedBodyId = null;
+    const snapshot = createInvariantSnapshot(state.simulation.bodies);
+    snapshot.relativeMotionByBodyId = computeRelativeMotion(state.simulation.bodies);
+    state.diagnostics.reference = snapshot;
+    state.diagnostics.current = snapshot;
+    state.diagnostics.comparison = compareInvariantSnapshot(snapshot, snapshot);
+  };
+  load(BASELINE_PRESET_ID);
+  let scenarioCalls = 0;
+  const controls = initControls({
+    document: fakeDocument, state,
+    onScenarioChange(id) { scenarioCalls += 1; load(id); },
+    onReset() { load(state.simulation.presetId); },
+    onTogglePaused() { state.ui.paused = !state.ui.paused; },
+    onSpeedChange(speed) { state.ui.speed = speed; },
+    onZoomIn() {}, onZoomOut() {}
+  });
+  const node = (id) => fakeDocument.getElementById(id);
+  const dispatch = (id, type) => node(id).listeners.get(type)();
+  const options = [...fakeDocument.markup.matchAll(/<option value="([^"]+)"/g)].map((match) => match[1]);
+  assert.deepEqual(options, [BASELINE_PRESET_ID, HIERARCHY_PRESET_ID]);
+  assert.equal(node("scenario-control").value, BASELINE_PRESET_ID);
+  state.ui.selectedBodyId = "sun";
+  controls.updateInspector();
+  assert.equal(node("body-reference").textContent, "none / n/a");
+  assert.equal(node("body-reference-distance").textContent, "n/a");
+  node("speed-control").value = "4";
+  dispatch("speed-control", "input");
+  state.ui.paused = false;
+  node("scenario-control").value = HIERARCHY_PRESET_ID;
+  dispatch("scenario-control", "change");
+  assert.equal(scenarioCalls, 1, "scenario selection routes through composition callback");
+  assert.equal(state.ui.paused, true);
+  assert.equal(state.ui.selectedBodyId, null);
+  assert.equal(state.ui.speed, 4);
+  assert.equal(node("simulation-preset").textContent, HIERARCHY_PRESET_ID);
+  assert.equal(node("simulation-bodies").textContent, "3");
+  assert.equal(node("simulation-steps").textContent, "0");
+  assert.equal(node("metric-energy-drift").textContent, "0");
+  for (const [id, reference] of [["planet", "Star (star)"], ["moon", "Planet (planet)"], ["star", "none / n/a"]]) {
+    state.ui.selectedBodyId = id;
+    const before = structuredClone(state);
+    controls.updateInspector();
+    assert.deepEqual(state, before);
+    assert.equal(node("body-reference").textContent, reference);
+    if (id !== "star") {
+      const relative = state.diagnostics.current.relativeMotionByBodyId[id];
+      assert.equal(node("body-reference-distance").textContent, relative.distance.toFixed(6));
+      assert.equal(node("body-reference-speed").textContent, relative.speed.toFixed(6));
+    } else {
+      assert.equal(node("body-reference-distance").textContent, "n/a");
+      assert.equal(node("body-reference-speed").textContent, "n/a");
+    }
+  }
+  // Display consumes the derived snapshot rather than recalculating vectors.
+  state.ui.selectedBodyId = "moon";
+  state.diagnostics.current.relativeMotionByBodyId.moon.distance = 123;
+  controls.updateInspector();
+  assert.equal(node("body-reference-distance").textContent, "123.000000");
+  state.diagnostics.current.relativeMotionByBodyId.moon.valid = false;
+  controls.updateInspector();
+  assert.equal(node("body-reference-distance").textContent, "n/a");
+  dispatch("reset-sim", "click");
+  assert.equal(state.simulation.presetId, HIERARCHY_PRESET_ID);
+  assert.equal(state.ui.speed, 4);
+  assert.equal(state.ui.selectedBodyId, null);
+  assert.equal(node("body-reference-distance").textContent, "n/a");
+  node("scenario-control").value = BASELINE_PRESET_ID;
+  dispatch("scenario-control", "change");
+  assert.equal(node("simulation-bodies").textContent, "6");
+  assert.equal(node("scenario-control").value, BASELINE_PRESET_ID);
+}
+
 try {
   runCheck("computeBarycenter", assertBarycenterBehavior);
   runCheck("createInvariantSnapshot", assertInvariantSnapshotBehavior);
   runCheck("compareInvariantSnapshot barycenter boundary", assertComparisonBoundary);
   runCheck("invariant telemetry fake-DOM rendering", assertTelemetryRendering);
+  runCheck("scenario routing and reference-relative fake-DOM rendering", assertScenarioRendering);
   console.log("OBSERVABLE LAYER CHECK: PASS");
 } catch (error) {
   console.error("OBSERVABLE LAYER CHECK: FAIL");

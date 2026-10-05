@@ -14,9 +14,9 @@
 * { box-sizing: border-box; }
 [hidden] { display: none !important; }
 body { margin: 0; background: var(--bg); color: var(--text); }
-button, input { font: inherit; }
-button, a, input, summary { -webkit-tap-highlight-color: transparent; }
-button:focus-visible, a:focus-visible, input:focus-visible, summary:focus-visible {
+button, input, select { font: inherit; }
+button, a, input, select, summary { -webkit-tap-highlight-color: transparent; }
+button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible, summary:focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: 3px;
 }
@@ -56,6 +56,9 @@ input[type="range"]::-moz-range-thumb { width: 10px; height: 10px; border: 0; bo
 .zoom-group { gap: 1px; }
 .zoom-value { width: 50px; text-align: center; font-family: Consolas, monospace; font-size: 11px; color: #b9b9b9; }
 .command-context { margin-left: auto; padding-left: 12px; font-size: 11px; color: var(--subtle); white-space: nowrap; }
+.scenario-group { min-width: 0; }
+.scenario-group label { font-size: 11px; color: var(--muted); }
+.scenario-group select { min-width: 0; max-width: 210px; height: 30px; background: #202020; color: var(--text); border: 1px solid #414141; border-radius: 4px; }
 
 .workspace { min-height: 0; min-width: 0; display: grid; grid-template-columns: minmax(0, 1fr) 318px; }
 .sim-area { min-height: 0; min-width: 0; display: grid; grid-template-rows: 34px minmax(0, 1fr) 30px; background: #080808; }
@@ -126,6 +129,7 @@ summary:hover { color: #cccccc; }
   .status-bar { gap: 14px; }
   .status-engine { display: none; }
 }
+@media (min-width: 701px) and (max-width: 1200px) { .command-context { display: none; } }
 @media (max-width: 700px) {
   .app-shell { height: auto; min-height: 100vh; min-height: 100dvh; grid-template-rows: 48px auto auto 28px; }
   .app-header { padding: 0 14px; }
@@ -138,6 +142,8 @@ summary:hover { color: #cccccc; }
   .speed-group { grid-column: 1 / -1; grid-row: 2; gap: 12px; }
   input[type="range"] { width: auto; flex: 1; }
   .zoom-group { grid-column: 2; grid-row: 1; }
+  .scenario-group { grid-column: 1 / -1; grid-row: 3; gap: 12px; }
+  .scenario-group select { flex: 1; max-width: none; }
   .workspace { grid-template-columns: 1fr; }
   .sim-area { height: 62vh; height: 62dvh; min-height: 320px; }
   .control-panel { overflow: visible; border-left: 0; border-top: 1px solid var(--border); }

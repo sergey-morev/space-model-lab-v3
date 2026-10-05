@@ -933,3 +933,18 @@ The implementation is accepted only when this statement is true:
 Space Model Lab v3 has a small clean source tree, separated physics/simulation/render/UI layers, a browser-visible educational gravity sandbox, and a headless invariant-based baseline that verifies core physics behavior without relying on canvas, viewport, browser automation, inactive implementation code, or visual inspection.
 
 If this statement is not true, the implementation is not accepted.
+
+
+---
+
+D-v3-029 hierarchical demonstrator acceptance gate (feature pending independent audit/merge)
+
+The baseline remains default with its exact existing seed, unchanged physics/config/step/baseline files and exact accepted baseline metrics. Exactly one additional frozen normalized-star-planet-moon preset is exposed; no library or editor is accepted.
+
+Required commands: node src/dev/baseline.js; node src/dev/observable-check.js; node src/dev/hierarchy-check.js; syntax checks for changed/linked JavaScript and tools/serve-local.js; git diff --check. All must pass. hierarchy-check must exit nonzero on failure and assert the exact ID, seed, three body IDs/count, finite state and 50000 steps, repeated twice.
+
+Frozen hierarchy gates: initial |P| and origin barycenter distance <=1e-12 each; peak relative energy drift <=1e-3, momentum drift <=1e-9, relative angular momentum drift <=1e-6, barycenter propagation error <=1e-9; Planet–Moon separation [0.03,0.12], Star–inner COM separation [0.8,1.2]; at least 50 Moon and 6 inner COM prograde windings; exact same-engine canonical repeatability. The softened-pair analytic normalized position error near one integer-step period must be <=1e-3. Recoil, translation and uniform-velocity boost covariance require direct assertions. Observation diagnostics require correct read-only vector fixtures and invalid/missing/self/no-reference handling.
+
+At desktop and around 390x844, both scenarios must load and remain selectable. Switching/Reset pause, reset current-scenario time/steps, clear selection/trails, refit camera and reset diagnostics while preserving speed 1–4. Planet shows Star and Moon shows Planet as reference; Star/baseline show none/n/a. Relative values update running and freeze paused. World/origin fields remain separately named. Play/Pause, zoom, selection/deselection, global telemetry and barycenter remain functional. Paused zoom must not change physical state, diagnostics or step count; mobile must have no horizontal document overflow. Console/page errors and failed core requests must be zero.
+
+No kernel, integrator, timestep, softening, dependency, renderer/camera redesign or broader physics/product change is allowed. Remote feature branch exact SHA, unchanged main/tags/frozen visual branch and independent audit are required before merge/publication. Finite-horizon checks must not be described as permanent stability.

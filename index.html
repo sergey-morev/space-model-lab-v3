@@ -4,6 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Space Model Lab v3</title>
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 28 28'%3E%3Ccircle cx='14' cy='14' r='8' fill='none' stroke='%238edbc8'/%3E%3C/svg%3E">
     <link rel="stylesheet" href="styles.css">
   </head>
   <body>
@@ -35,6 +36,13 @@
           <button id="zoom-out" class="icon-button" type="button" title="Zoom out" aria-label="Zoom out"><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="8.5" cy="8.5" r="5.5"/><path d="m13 13 4 4M6 8.5h5"/></svg></button>
           <span id="zoom-value" class="zoom-value" title="Camera scale, render only">180</span>
           <button id="zoom-in" class="icon-button" type="button" title="Zoom in" aria-label="Zoom in"><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="8.5" cy="8.5" r="5.5"/><path d="m13 13 4 4M6 8.5h5m-2.5-2.5v5"/></svg></button>
+        </div>
+        <div class="control-group scenario-group">
+          <label for="scenario-control">Scenario</label>
+          <select id="scenario-control">
+            <option value="normalized-educational-nbody">Educational N-body baseline</option>
+            <option value="normalized-star-planet-moon">Star–Planet–Moon</option>
+          </select>
         </div>
         <span class="command-context">Normalized Newtonian N-body</span>
       </div>
@@ -69,6 +77,9 @@
                 <div><dt>Mass <span class="unit">normalized</span></dt><dd id="body-mass">n/a</dd></div>
                 <div><dt>Distance <span class="unit">from origin</span></dt><dd id="body-distance">n/a</dd></div>
                 <div><dt>Speed <span class="unit">normalized</span></dt><dd id="body-speed">n/a</dd></div>
+                <div><dt>Reference body</dt><dd id="body-reference">none / n/a</dd></div>
+                <div><dt>Distance to reference</dt><dd id="body-reference-distance">n/a</dd></div>
+                <div><dt>Speed relative to reference</dt><dd id="body-reference-speed">n/a</dd></div>
               </dl>
               <h3 class="property-heading">Position <span>normalized units</span></h3>
               <dl class="vector-values"><div><dt>X</dt><dd id="body-position-x">n/a</dd></div><div><dt>Y</dt><dd id="body-position-y">n/a</dd></div></dl>

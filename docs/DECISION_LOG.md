@@ -1376,6 +1376,35 @@ No new preset, physics editor, broad controls, docking system, 3D simulation, ci
 
 ---
 
+D-v3-029 — Single hierarchical Star–Planet–Moon demonstrator scope accepted
+
+Status: ACCEPTED
+Date: 2026-10-04
+
+Context
+
+The owner approved the narrow scientific exception to D-v3-023 in WO-SML-2026-10-04-05 after the untuned feasibility probe passed.
+
+Decision
+
+Exactly one additional fixed scenario, normalized-star-planet-moon, is authorized. The original six-body baseline remains the default, with unchanged initial state and baseline runner. The pairwise softened Newtonian kernel, Velocity Verlet / Kick–Drift–Kick, G=1, dt=0.001 and softening=0.001 remain unchanged.
+
+Planet references Star and Moon references Planet for read-only distance/speed observations. referenceBodyId never affects forces or evolution. A scenario switch or Reset pauses, creates fresh current-scenario bodies, clears selection and presentation trails, refits the camera and resets diagnostics while preserving fixed speed 1–4.
+
+Rationale
+
+A fixed hierarchy demonstrates nested relative motion, recoil and perturbations on the existing kernel. The frozen seed and every-step 50000-step checks make the finite-horizon claim reproducible.
+
+Consequences
+
+src/dev/hierarchy-check.js verifies the frozen seed, invariants, hierarchy bounds, prograde winding counts, repeatability and an isolated softened-pair analytic anchor. Scope is accepted; feature acceptance and publication remain subject to exact-SHA validation, independent audit and the merge gate.
+
+Not decided
+
+No long-term stability claim, preset library, editor, real ephemerides, 3D, GR, collision expansion, dependency, framework or renderer/camera redesign is authorized.
+
+---
+
 Active decision summary
 
 Accepted:
@@ -1408,3 +1437,4 @@ Accepted:
 * D-v3-026 - GitHub Pages public preview accepted
 * D-v3-027 - Observable-layer verification harness accepted
 * D-v3-028 - Professional cockpit presentation scope accepted
+* D-v3-029 - Single hierarchical Star–Planet–Moon demonstrator scope accepted

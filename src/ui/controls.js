@@ -4,6 +4,7 @@ export function initControls(options) {
     state,
     onTogglePaused,
     onReset,
+    onScenarioChange,
     onSpeedChange,
     onZoomIn,
     onZoomOut
@@ -46,6 +47,7 @@ export function initControls(options) {
 
   const toggleButton = element("toggle-run");
   const speedControl = element("speed-control");
+  const scenarioControl = element("scenario-control");
   speedControl.value = String(state.ui.speed);
 
   toggleButton.addEventListener("click", () => {
@@ -54,6 +56,10 @@ export function initControls(options) {
   });
   element("reset-sim").addEventListener("click", () => {
     onReset();
+    updateInspector();
+  });
+  scenarioControl.addEventListener("change", () => {
+    onScenarioChange(scenarioControl.value);
     updateInspector();
   });
   speedControl.addEventListener("input", () => {
@@ -77,6 +83,12 @@ export function initControls(options) {
       : null;
     const selectedLabel = selectedBody ? selectedBody.name ?? selectedBody.id : "none";
     const diagnostics = state.diagnostics ?? {};
+    scenarioControl.value = simulation.presetId;
+    const relative = diagnostics.current?.relativeMotionByBodyId?.[selectedBody?.id];
+    const hasReference = relative?.valid && relative.referenceBodyId !== null;
+    text("body-reference", hasReference ? `${relative.referenceName} (${relative.referenceBodyId})` : "none / n/a");
+    text("body-reference-distance", hasReference ? formatValue(relative.distance) : "n/a");
+    text("body-reference-speed", hasReference ? formatValue(relative.speed) : "n/a");
     const mode = state.ui.paused ? "Paused" : "Running";
     const time = formatValue(simulation.time, 3);
     const zoom = formatValue(state.camera.zoom, 0);

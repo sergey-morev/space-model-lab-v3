@@ -302,6 +302,7 @@ controls.js
 dev/
 baseline.js
 observable-check.js
+hierarchy-check.js
 
 This structure is intentionally small.
 
@@ -371,6 +372,8 @@ UI
 Development verification
 
 * src/dev/baseline.js
+* src/dev/observable-check.js
+* src/dev/hierarchy-check.js - dependency-free frozen Star–Planet–Moon finite-horizon verifier authorized by D-v3-029.
 
 ---
 
@@ -580,7 +583,8 @@ Current runtime posture:
 * no TypeScript
 * no browser automation baseline
 * no new physics beyond accepted Newtonian v0
-* current runtime preset uses generic educational bodies: Sun, Inner A, Inner B, Middle, Outer A, Outer B
+* default runtime preset uses generic educational bodies: Sun, Inner A, Inner B, Middle, Outer A, Outer B
+* D-v3-029 authorizes exactly one additional fixed Star–Planet–Moon scenario; feature acceptance remains subject to audit/merge
 * live invariant telemetry accepted
 * barycenter / center-of-mass marker accepted
 * no-dependency Node local launcher accepted
@@ -609,7 +613,7 @@ Current accepted inspector posture:
 
 * normalized-units disclaimer is visible in the inspector
 * selected-body diagnostics are read-only UI display
-* derived speed and distance diagnostics are not stored in bodies or state
+* origin distance and world speed are display-only; reference-relative diagnostics live in derived state.diagnostics.current.relativeMotionByBodyId, never in bodies
 * no approximate orbital period is accepted in the current inspector
 
 ---
