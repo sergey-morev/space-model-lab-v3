@@ -83,7 +83,9 @@ export function initControls(options) {
       : null;
     const selectedLabel = selectedBody ? selectedBody.name ?? selectedBody.id : "none";
     const diagnostics = state.diagnostics ?? {};
-    scenarioControl.value = simulation.presetId;
+    if (scenarioControl.value !== simulation.presetId) {
+      scenarioControl.value = simulation.presetId;
+    }
     const relative = diagnostics.current?.relativeMotionByBodyId?.[selectedBody?.id];
     const hasReference = relative?.valid && relative.referenceBodyId !== null;
     text("body-reference", hasReference ? `${relative.referenceName} (${relative.referenceBodyId})` : "none / n/a");

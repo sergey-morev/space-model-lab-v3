@@ -274,6 +274,8 @@ MANIFEST.md
 package.json
 index.html
 styles.css
+assets/
+cockpit-preview.png
 docs/
 DECISION_LOG.md
 LESSONS_INHERITED.md
@@ -341,6 +343,10 @@ Browser entry
 * index.html
 * styles.css
 * src/main.js
+
+Public presentation asset (owner-authorized screenshot/OG packaging):
+
+* assets/cockpit-preview.png - real 1200×630 browser screenshot shared by the README and social preview metadata; presentation evidence only.
 
 Configuration and state
 

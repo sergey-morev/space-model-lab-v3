@@ -46,6 +46,7 @@ function resizeCanvas() {
   const fallbackHeight = canvas.height || 640;
   const width = Math.max(1, Math.floor((rect.width || fallbackWidth) * ratio));
   const height = Math.max(1, Math.floor((rect.height || fallbackHeight) * ratio));
+  const resized = canvas.width !== width || canvas.height !== height;
 
   if (canvas.width !== width) {
     canvas.width = width;
@@ -53,6 +54,7 @@ function resizeCanvas() {
   if (canvas.height !== height) {
     canvas.height = height;
   }
+  return resized;
 }
 
 function fitCameraToBodies() {
@@ -151,7 +153,9 @@ canvas.addEventListener("pointerleave", () => {
 });
 
 function frame() {
-  resizeCanvas();
+  if (resizeCanvas()) {
+    fitCameraToBodies();
+  }
 
   if (!state.ui.paused) {
     const stepsThisFrame = clampStepsPerFrame(state.ui.speed);
