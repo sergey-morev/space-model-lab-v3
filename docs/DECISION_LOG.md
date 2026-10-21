@@ -1405,6 +1405,31 @@ No long-term stability claim, preset library, editor, real ephemerides, 3D, GR, 
 
 ---
 
+D-v3-030 - Bounded mobile polish and public preview packaging scope accepted
+
+Status: ACCEPTED
+Date: 2026-10-21
+
+Context
+
+The owner authorized the remaining label/mobile/readability and screenshot/OG backlog directly in the executor session after the accepted Star–Planet–Moon merge.
+
+Decision
+
+Render labels may use bounded screen-space placement to avoid clipping and label/body overlap, with modest leader lines. Mobile layout prioritizes the viewport and all four invariant values in the initial screen, readable values and 44px primary control targets. Canvas resize refits the existing camera without changing world state. The selector only synchronizes its value when needed.
+
+A real browser screenshot at assets/cockpit-preview.png is authorized for the README and Open Graph / large-image card metadata. It is presentation evidence, not a physics oracle. No external asset dependency, tracking or build tooling is added.
+
+Consequences
+
+Physics, simulation, diagnostics, presets, fixed timestep, tolerances, camera projection and baseline runners remain unchanged. Browser validation must verify label bounds/intersections, reset/switch/zoom/resize behavior, responsive overflow, touch targets and telemetry visibility, alongside all three headless checks. Scope is accepted; merge/publication remains subject to review of the exact candidate.
+
+Not decided
+
+No new scientific scenario, force law, integrator, framework, camera mode, editor or v4 expansion is authorized.
+
+---
+
 Active decision summary
 
 Accepted:
@@ -1438,3 +1463,4 @@ Accepted:
 * D-v3-027 - Observable-layer verification harness accepted
 * D-v3-028 - Professional cockpit presentation scope accepted
 * D-v3-029 - Single hierarchical Star–Planet–Moon demonstrator scope accepted
+* D-v3-030 - Bounded mobile polish and public preview packaging scope accepted

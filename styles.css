@@ -117,6 +117,14 @@ summary:hover { color: #cccccc; }
 .model-note p { color: var(--subtle); font-size: 10px; line-height: 1.6; overflow-wrap: anywhere; }
 .note-section { border-bottom: 0; }
 
+/* Readable scientific values without expanding the control surface. */
+.control-panel h2 { font-size: 11px; }
+.property-list dt, .property-list dd, .vector-values dd { font-size: 12px; }
+.section-caption, .empty-selection, .units-note, .model-note p { font-size: 11px; }
+summary { font-size: 12px; min-height: 32px; display: flex; align-items: center; gap: 6px; }
+summary::before { content: "▸"; }
+details[open] > summary::before { content: "▾"; }
+
 .status-bar { display: flex; align-items: center; gap: 22px; min-width: 0; padding: 0 14px; background: #1a1a1a; border-top: 1px solid var(--border); font-size: 10px; color: var(--subtle); }
 .status-bar strong { color: #acacac; font-weight: 400; font-variant-numeric: tabular-nums; }
 .status-mode { display: flex; align-items: center; gap: 7px; width: 63px; color: #b7b7b7; }
@@ -135,21 +143,26 @@ summary:hover { color: #cccccc; }
   .app-header { padding: 0 14px; }
   .kernel-status { font-size: 0; gap: 0; }
   .command-bar { display: grid; grid-template-columns: minmax(0, 1fr) auto; min-height: 48px; padding: 8px 10px; row-gap: 4px; }
-  .control-group { height: 34px; padding: 0; border-right: 0; }
+  .control-group { height: 44px; padding: 0; border-right: 0; }
   .transport { grid-column: 1; grid-row: 1; }
-  button { height: 34px; }
-  .icon-button { width: 34px; }
+  button { height: 44px; }
+  .icon-button { width: 44px; }
   .speed-group { grid-column: 1 / -1; grid-row: 2; gap: 12px; }
-  input[type="range"] { width: auto; flex: 1; }
+  input[type="range"] { width: auto; flex: 1; height: 44px; background: linear-gradient(#3f3f3f, #3f3f3f) center / 100% 4px no-repeat; }
+  input[type="range"]::-webkit-slider-thumb { width: 22px; height: 22px; }
+  input[type="range"]::-moz-range-thumb { width: 22px; height: 22px; }
   .zoom-group { grid-column: 2; grid-row: 1; }
   .scenario-group { grid-column: 1 / -1; grid-row: 3; gap: 12px; }
-  .scenario-group select { flex: 1; max-width: none; }
+  .scenario-group select { flex: 1; max-width: none; height: 44px; font-size: 14px; }
   .workspace { grid-template-columns: 1fr; }
-  .sim-area { height: 62vh; height: 62dvh; min-height: 320px; }
+  .sim-area { height: clamp(176px, 32dvh, 300px); min-height: 0; }
   .control-panel { overflow: visible; border-left: 0; border-top: 1px solid var(--border); }
   .panel-heading { position: static; }
-  .telemetry-values { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px 24px; }
-  .telemetry-values > div { flex-direction: column; gap: 6px; }
+  .inspector-section { padding: 14px; }
+  .telemetry-section { padding: 12px 14px; }
+  .telemetry-section .section-caption { margin: 6px 0 10px; }
+  .telemetry-values { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px 20px; }
+  .telemetry-values > div { flex-direction: column; gap: 4px; }
   .telemetry-values dd { text-align: left; }
   .property-list > div { grid-template-columns: minmax(0, 1fr) minmax(0, 1.5fr); }
   .status-selection { display: none; }

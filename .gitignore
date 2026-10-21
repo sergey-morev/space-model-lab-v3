@@ -6,6 +6,7 @@ build/
 *.log
 *.zip
 *.png
+!assets/cockpit-preview.png
 *.jpg
 *.jpeg
 .agents/

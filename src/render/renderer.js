@@ -191,10 +191,71 @@ export function createRenderer(canvas) {
     context.fillStyle = color;
     context.fill();
 
-    context.globalAlpha = central ? 0.9 : selected ? 0.9 : 0.62;
-    context.fillStyle = "#c7d3e1";
-    context.font = `${(selected ? 12 : 10) * ratio}px system-ui, sans-serif`;
-    context.fillText(body.name ?? body.id ?? "body", screen.x + radius + 7 * ratio, screen.y + 4 * ratio);
+    context.restore();
+  }
+
+  function drawLabels(bodies, camera) {
+    const ratio = pixelRatio();
+    const padding = 3 * ratio;
+    const margin = 6 * ratio;
+    const projected = bodies.map((body) => ({ body, screen: projectBody(body, camera), radius: bodyScreenRadius(body) }));
+    const occupied = projected.map(({ screen, radius }) => ({
+      x: screen.x - radius - padding, y: screen.y - radius - padding,
+      width: 2 * (radius + padding), height: 2 * (radius + padding)
+    }));
+    const overlap = (a, b) => Math.max(0, Math.min(a.x + a.width, b.x + b.width) - Math.max(a.x, b.x))
+      * Math.max(0, Math.min(a.y + a.height, b.y + b.height) - Math.max(a.y, b.y));
+
+    context.save();
+    context.textBaseline = "top";
+    // Selected labels get first choice. Placement uses screen rectangles only;
+    // it never changes world state, hit targets, or body projection.
+    projected.sort((a, b) => Number(b.body.id === camera.selectedBodyId) - Number(a.body.id === camera.selectedBodyId));
+    for (const { body, screen, radius } of projected) {
+      if (screen.x < 0 || screen.x > canvas.width || screen.y < 0 || screen.y > canvas.height) continue;
+      const selected = body.id === camera.selectedBodyId;
+      const label = body.name ?? body.id ?? "body";
+      context.font = `${(selected ? 13 : 12) * ratio}px system-ui, sans-serif`;
+      const width = Math.min(canvas.width - 2 * margin, context.measureText(label).width + 2 * padding);
+      const height = 18 * ratio;
+      let placement;
+      let leastOverlap = Infinity;
+      for (const offset of [0, -1, 1, -2, 2, -3, 3]) {
+        for (const side of [1, -1]) {
+          const candidate = {
+            x: Math.max(margin, Math.min(canvas.width - margin - width,
+              side > 0 ? screen.x + radius + 7 * ratio : screen.x - radius - 7 * ratio - width)),
+            y: Math.max(margin, Math.min(canvas.height - margin - height, screen.y - height / 2 + offset * height)),
+            width, height
+          };
+          const area = occupied.reduce((sum, box) => sum + overlap(candidate, box), 0);
+          if (area < leastOverlap) {
+            placement = candidate;
+            leastOverlap = area;
+          }
+          if (area === 0) break;
+        }
+        if (leastOverlap === 0) break;
+      }
+      occupied.push(placement);
+      const anchor = {
+        x: Math.max(placement.x, Math.min(placement.x + width, screen.x)),
+        y: Math.max(placement.y, Math.min(placement.y + height, screen.y))
+      };
+      context.globalAlpha = 0.45;
+      context.strokeStyle = body.color ?? "#c7d3e1";
+      context.lineWidth = ratio;
+      context.beginPath();
+      context.moveTo(screen.x, screen.y);
+      context.lineTo(anchor.x, anchor.y);
+      context.stroke();
+      context.globalAlpha = selected ? 1 : 0.85;
+      context.lineWidth = 3 * ratio;
+      context.strokeStyle = "#090909";
+      context.fillStyle = "#d3dce8";
+      context.strokeText(label, placement.x + padding, placement.y + padding, width - 2 * padding);
+      context.fillText(label, placement.x + padding, placement.y + padding, width - 2 * padding);
+    }
     context.restore();
   }
 
@@ -259,6 +320,7 @@ export function createRenderer(canvas) {
       drawBody(body, renderCamera);
     }
     drawBarycenterMarker(state, renderCamera);
+    drawLabels(state.simulation.bodies, renderCamera);
   }
 
   function resetPresentation() {

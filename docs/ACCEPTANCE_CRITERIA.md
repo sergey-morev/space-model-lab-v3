@@ -948,3 +948,13 @@ Frozen hierarchy gates: initial |P| and origin barycenter distance <=1e-12 each;
 At desktop and around 390x844, both scenarios must load and remain selectable. Switching/Reset pause, reset current-scenario time/steps, clear selection/trails, refit camera and reset diagnostics while preserving speed 1–4. Planet shows Star and Moon shows Planet as reference; Star/baseline show none/n/a. Relative values update running and freeze paused. World/origin fields remain separately named. Play/Pause, zoom, selection/deselection, global telemetry and barycenter remain functional. Paused zoom must not change physical state, diagnostics or step count; mobile must have no horizontal document overflow. Console/page errors and failed core requests must be zero.
 
 No kernel, integrator, timestep, softening, dependency, renderer/camera redesign or broader physics/product change is allowed. Remote feature branch exact SHA, unchanged main/tags/frozen visual branch and independent audit are required before merge/publication. Finite-horizon checks must not be described as permanent stability.
+
+---
+
+D-v3-030 bounded presentation verification
+
+Run the baseline, observable and hierarchy checks without changing their thresholds or fixtures. Check syntax and git diff whitespace. Physics, simulation, diagnostics and preset blobs must remain unchanged.
+
+Real-browser checks cover both scenarios at desktop and narrow widths, including 390x844 and DPR 1/2: labels stay within canvas bounds and avoid mutual intersections at initial, selected, running, reset and resized sample states; global telemetry remains finite; all four invariant values appear in the initial mobile screen; primary mobile controls have 44px hit heights; no horizontal overflow or core request/console errors occur. Paused zoom and resize must preserve physical values, diagnostic values and fixed step counts. Existing Play/Pause, speeds 1–4, selection/deselection, current-scenario Reset and switch semantics remain intact.
+
+The README screenshot must be an actual browser capture. The shared 1200x630 asset must resolve locally, and Open Graph / large-image card metadata must use the canonical Pages URL, matching dimensions and accurate image description. Preview metadata becomes public after reviewed changes reach main; social cache refresh is external to the application.

@@ -1048,3 +1048,9 @@ Pure computeRelativeMotion in diagnostics.js owns reference subtraction and magn
 main.js routes the selector and Reset through a single current-scenario reset path. That path replaces simulation state, pauses, clears selectedBodyId, resets diagnostic references, clears renderer presentation caches and refits the existing camera; state.ui.speed is preserved. The selector accepts only the two authorized IDs. UI synchronizes selector, preset ID, count and reference-relative values from state.
 
 The independent hierarchy-check.js fixture uses built-in Node assertions and existing config/physics/simulation/diagnostics only, with no DOM, UI, render, camera, main or server imports. It checks exact preset resolution and seed, every-step summaries, repeated canonical state, analytic pair and observation-only metadata. observable-check.js verifies the changed controls contract with fake DOM; real browser QA remains separate. No dependencies, worker, framework or preset abstraction are added.
+
+D-v3-030 presentation-only refinement
+
+renderer.js places labels after body/marker drawing using measured text and projected screen rectangles. It clamps labels to the canvas and tests bounded side/vertical candidates against body and label rectangles. Selected labels have placement priority; leader lines identify their bodies. No label coordinates enter body state, hit testing or world projection, and no label history is stored. Extremely crowded or deliberately off-screen views are not a guarantee of universal label separation.
+
+main.js refits the existing camera when canvas dimensions change. This alters projection only. Mobile CSS shortens the viewport to keep four invariant values visible, enlarges primary hit targets and preserves the same inspector DOM. The static screenshot asset and social metadata add no runtime script, network dependency or build tool.
